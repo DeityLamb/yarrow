@@ -1,12 +1,12 @@
 plugins {
     id 'java-library'
     id 'maven-publish'
-    id 'signing'
-    id 'io.github.gradle-nexus.publish-plugin' version '1.3.0'
+    id 'org.jreleaser' version '1.19.0'
 }
 
-group = project.findProperty('GROUP') ?: 'dev.deitylamb.fern'
-version = project.findProperty('VERSION') ?: '0.1.0'
+
+group = project.findProperty('GROUP')
+version = project.findProperty('VERSION')
 
 repositories {
     mavenCentral()
@@ -31,77 +31,59 @@ tasks.named('test') {
 publishing {
     publications {
         maven(MavenPublication) {
+            groupId = GROUP
+            artifactId = 'fern'
+
             from components.java
-            
-            groupId = group
-            artifactId = rootProject.name
-            version = version
-            
+
             pom {
-                name = 'Fern'
-                description = 'Simple and lightweight tweening library for Java'
-                url = 'https://github.com/yourusername/fern'
-                
+                name = 'fern'
+                description = 'Simple and lightweight transition library for Java'
+                url = 'https://github.com/deitylamb/fern'
+                inceptionYear = '2025'
                 licenses {
                     license {
-                        name = 'MIT License'
+                        name = 'MIT'
                         url = 'https://opensource.org/licenses/MIT'
                     }
                 }
-                
                 developers {
                     developer {
                         id = 'deitylamb'
                         name = 'Oleksii Rakytianskyi'
-                        email = 'deitylamb@gmail.com'
                     }
                 }
-                
                 scm {
-                    connection = 'scm:git:git://github.com/deitylamb/fern.git'
-                    developerConnection = 'scm:git:ssh://github.com:deitylamb/fern.git'
-                    url = 'https://github.com/deitylamb/fern'
+                    connection = 'scm:git:https://github.com/deitylamb/fern.git'
+                    developerConnection = 'scm:git:ssh://github.com/deitylamb/fern.git'
+                    url = 'http://github.com/deitylamb/fern'
                 }
             }
         }
     }
-    
+
     repositories {
         maven {
-            name = "OSSRH"
-            url = version.endsWith('SNAPSHOT') ? 
-                "https://s01.oss.sonatype.org/content/repositories/snapshots/" : 
-                "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
-            credentials {
-                username = project.findProperty('ossrhUsername') ?: System.getenv('MAVEN_USERNAME')
-                password = project.findProperty('ossrhPassword') ?: System.getenv('MAVEN_PASSWORD')
-            }
+            url = layout.buildDirectory.dir('staging-deploy')
         }
     }
 }
 
-signing {
-    def signingKey = project.findProperty('signingKey') ?: System.getenv('SIGNING_KEY')
-    def signingPassword = project.findProperty('signingPassword') ?: System.getenv('SIGNING_PASSWORD')
-    
-    if (signingKey && signingPassword) {
-        useInMemoryPgpKeys(signingKey, signingPassword)
-        sign publishing.publications.maven
-    }
-}
-
-// Only sign if we have the signing key
-tasks.withType(Sign) {
-    onlyIf { project.hasProperty('signingKey') || System.getenv('SIGNING_KEY') }
-}
-
-nexusPublishing {
-    repositories {
+jreleaser {
+  signing {
+    active = 'ALWAYS'
+    armored = true
+  }
+  
+  deploy {
+    maven {
+      mavenCentral {
         sonatype {
-            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
-            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
-            username = project.findProperty('ossrhUsername') ?: System.getenv('MAVEN_USERNAME')
-            password = project.findProperty('ossrhPassword') ?: System.getenv('MAVEN_PASSWORD')
+          active = 'ALWAYS'
+          url = 'https://central.sonatype.com/api/v1/publisher'
+          stagingRepository('target/staging-deploy')
         }
+      }
     }
+  }
 }
