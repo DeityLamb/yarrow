@@ -9,3 +9,5 @@ bin
 
 .vscode
 .settings
+
+maven.sh

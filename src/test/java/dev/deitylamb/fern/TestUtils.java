@@ -9,24 +9,29 @@ import dev.deitylamb.fern.transitions.Transitionable;
 
 public class TestUtils {
   public static IterShouldBe iter(Transitionable<?> transition, int ticks) {
-    return (Function<Integer, Float> should) -> {
+    return (Function<Integer, Double> should) -> {
       for (int t = 0; t < ticks; t++) {
-        assertEquals(should.apply(t), transition.progress(), 0.01f);
-
-        transition.tick(1.0f);
+        assertEquals(transition.alpha(), should.apply(t), 0.01d);
+        transition.tick(1.0d);
       }
     };
   }
 
+  public static void iter(Flowable<?> transition, int ticks) {
+    for (int t = 0; t < ticks; t++) {
+      transition.tick(1.0d);
+    }
+  }
+
   @FunctionalInterface
   public static interface IterShouldBe {
-    void shouldBe(Function<Integer, Float> should);
+    void shouldBe(Function<Integer, Double> should);
 
-    default void shouldBe(Supplier<Float> should) {
+    default void shouldBe(Supplier<Double> should) {
       shouldBe((t) -> should.get());
     };
 
-    default void shouldBe(float should) {
+    default void shouldBe(double should) {
       shouldBe((t) -> should);
     };
 

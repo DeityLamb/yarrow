@@ -2,28 +2,29 @@ package dev.deitylamb.fern.transitions.decorators;
 
 import java.util.Arrays;
 
-import dev.deitylamb.fern.Fern;
-import dev.deitylamb.fern.Formattable;
-import dev.deitylamb.fern.transitions.ChainTransition;
+import dev.deitylamb.fern.common.Displayable;
+import dev.deitylamb.fern.common.Easings.Ease;
+import dev.deitylamb.fern.common.FernUtils;
+import dev.deitylamb.fern.transitions.SequenceTransition;
 import dev.deitylamb.fern.transitions.Transitionable;
 
 public class DelayTransition<T> extends TransitionDecorator<T> {
-    private final float delay;
-    private float elapsed;
+    private final double delay;
+    private double elapsed = 0;
 
-    public DelayTransition(Transitionable<T> transition, float delay) {
+    public DelayTransition(Transitionable<T> transition, double delay) {
         super(transition);
         this.delay = delay;
     }
 
     @Override
-    public void tick(T gui, float delta) {
+    public void tick(T gui, double delta) {
 
         boolean run = isRunning();
 
         if (run && elapsed < delay) {
-            this.apply(gui, 0f);
-            this.elapsed = Fern.clamp(elapsed + delta, 0, delay);
+            this.apply(gui, 0d);
+            this.elapsed = FernUtils.clamp(elapsed + delta, 0, delay);
             return;
         }
 
@@ -41,13 +42,32 @@ public class DelayTransition<T> extends TransitionDecorator<T> {
     }
 
     @Override
-    public Transitionable<T> chain(Transitionable<T> transition) {
-        return new ChainTransition<>(Arrays.asList(this.clone(), transition.clone()));
+    public void seek(double duration) {
+
+        double modulo = FernUtils.modulo(duration, this.duration());
+
+        if (modulo > delay) {
+            inner.seek(modulo - delay);
+            this.elapsed = delay;
+            return;
+        }
+
+        this.elapsed = modulo;
     }
 
     @Override
-    public Transitionable<T> reverse() {
-        return new DelayTransition<>(inner.reverse(), delay);
+    public double duration() {
+        return delay + inner.duration();
+    }
+
+    @Override
+    public Transitionable<T> then(Transitionable<T> transition) {
+        return new SequenceTransition<>(Arrays.asList(this.clone(), transition.clone()));
+    }
+
+    @Override
+    public Transitionable<T> ease(Ease ease) {
+        return new DelayTransition<>(inner.ease(ease), delay);
     }
 
     @Override
@@ -63,11 +83,12 @@ public class DelayTransition<T> extends TransitionDecorator<T> {
     @Override
     public String display(int depth) {
 
-        String tab = Formattable.indent(depth);
+        String tab = Displayable.indent(depth);
 
         return "DelayTransition {\n" +
-                tab + Formattable.INDENT + "delay=" + delay + ",\n" +
-                tab + Formattable.INDENT + "inner=" + inner.display(depth + 1) + "\n" +
+                tab + Displayable.INDENT + "elapsed=" + elapsed + ",\n" +
+                tab + Displayable.INDENT + "delay=" + delay + ",\n" +
+                tab + Displayable.INDENT + "inner=" + inner.display(depth + 1) + "\n" +
                 tab + "}";
     }
 }

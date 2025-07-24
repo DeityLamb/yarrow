@@ -2,29 +2,29 @@ package dev.deitylamb.fern.transitions;
 
 import java.util.function.Function;
 
-import dev.deitylamb.fern.Fern;
 import dev.deitylamb.fern.Flowable;
-import dev.deitylamb.fern.Formattable;
+import dev.deitylamb.fern.common.Displayable;
+import dev.deitylamb.fern.common.Easings.Ease;
 import dev.deitylamb.fern.transitions.decorators.DelayTransition;
-import dev.deitylamb.fern.transitions.decorators.LoopTransition;
+import dev.deitylamb.fern.transitions.decorators.RepeatTransition;
 
-public interface Transitionable<T> extends Flowable<T>, Formattable {
+public interface Transitionable<T> extends Flowable<T>, Displayable {
 
-    float progress();
+    Progress progress();
 
-    default float progress(Function<Float, Float> ease) {
-        return ease.apply(progress());
+    default Progress progress(Function<Double, Double> ease) {
+        return new Progress(alpha(ease));
     }
 
-    default int color(int from, int to) {
-        return Fern.lerpColor(progress(), from, to);
+    double alpha();
+
+    default double alpha(Function<Double, Double> ease) {
+        return ease.apply(progress().alpha());
     }
 
-    default String colorHex(String from, String to) {
-        return Fern.lerpHexColor(progress(), from, to);
-    }
+    double duration();
 
-    void apply(T gui, float alpha);
+    void apply(T gui, double alpha);
 
     boolean isRunning();
 
@@ -32,7 +32,9 @@ public interface Transitionable<T> extends Flowable<T>, Formattable {
         return !isRunning();
     }
 
-    void run();
+    void seek(double duration);
+
+    void play();
 
     void reset();
 
@@ -40,7 +42,7 @@ public interface Transitionable<T> extends Flowable<T>, Formattable {
 
     default void restart() {
         this.reset();
-        this.run();
+        this.play();
     }
 
     default void stop() {
@@ -48,25 +50,30 @@ public interface Transitionable<T> extends Flowable<T>, Formattable {
         this.reset();
     }
 
-    Transitionable<T> reverse();
+    Transitionable<T> clone();
 
-    Transitionable<T> chain(Transitionable<T> transition);
+    Transitionable<T> ease(Ease ease);
 
-    default Transitionable<T> then(Transitionable<T> transition) {
-        return chain(transition);
+    Transitionable<T> then(Transitionable<T> transition);
+
+    default Transitionable<T> reverse() {
+        return this.ease(alpha -> 1d - alpha);
     };
 
-    default Transitionable<T> delay(float delay) {
+    default Transitionable<T> delay(double delay) {
         return new DelayTransition<>(this.clone(), delay);
     };
 
-    default LoopTransition<T> loop() {
-        return new LoopTransition<>(this);
+    default RepeatTransition<T> repeat(int times) {
+        return new RepeatTransition<>(this, times);
+    }
+
+    default RepeatTransition<T> loop() {
+        return new RepeatTransition<>(this, -1);
     }
 
     default Transitionable<T> circular() {
         return this.then(this.reverse());
     }
 
-    Transitionable<T> clone();
 }

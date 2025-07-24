@@ -2,22 +2,22 @@ package dev.deitylamb.fern.tweens;
 
 import java.util.function.Function;
 
-public class PipeTween<T> implements Tween<T> {
+public class PipeTween<T> implements Tweenable<T> {
 
-    private Tween<T> transition;
-    private Function<Float, Float> via;
+    private Tweenable<T> transition;
+    private Function<Double, Double> via;
 
-    public PipeTween(Tween<T> transition, Function<Float, Float> via) {
+    public PipeTween(Tweenable<T> transition, Function<Double, Double> via) {
         this.transition = transition;
         this.via = via;
     }
 
-    public Tween<T> transition() {
+    public Tweenable<T> transition() {
         return transition;
     }
 
     @Override
-    public void apply(T gui, float alpha) {
+    public void apply(T gui, double alpha) {
         this.transition.apply(gui, this.via.apply(alpha));
     }
 
@@ -27,6 +27,6 @@ public class PipeTween<T> implements Tween<T> {
     }
 
     public PipeTween<T> clone() {
-        return new PipeTween<>(Tween.clone(this.transition), this.via);
+        return new PipeTween<>(Tweenable.clone(this.transition), this.via);
     }
 }

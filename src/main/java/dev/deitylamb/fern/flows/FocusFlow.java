@@ -4,13 +4,13 @@ import dev.deitylamb.fern.Flowable;
 import dev.deitylamb.fern.transitions.Transitionable;
 
 public class FocusFlow<T> implements Flowable<T> {
-    private final Transitionable<T> hover;
+    private final Transitionable<T> focus;
     private final Transitionable<T> blur;
     private boolean isFocused = false;
     private boolean wasFocused = false;
 
-    public FocusFlow(Transitionable<T> hover, Transitionable<T> blur) {
-        this.hover = hover;
+    public FocusFlow(Transitionable<T> focus, Transitionable<T> blur) {
+        this.focus = focus;
         this.blur = blur;
     }
 
@@ -19,16 +19,16 @@ public class FocusFlow<T> implements Flowable<T> {
     }
 
     @Override
-    public void tick(T gui, float delta) {
+    public void tick(T gui, double delta) {
 
         if (isFocused && wasFocused) {
 
-            if (!hover.isRunning()) {
-                hover.apply(gui, 1f);
+            if (!focus.isRunning()) {
+                focus.apply(gui, 1d);
                 return;
             }
 
-            hoverTick(gui, delta);
+            focusTick(gui, delta);
             return;
         }
 
@@ -39,7 +39,7 @@ public class FocusFlow<T> implements Flowable<T> {
         }
 
         if (isFocused && !wasFocused) {
-            this.hoverTick(gui, delta);
+            this.focusTick(gui, delta);
             this.wasFocused = isFocused;
             return;
         }
@@ -47,26 +47,26 @@ public class FocusFlow<T> implements Flowable<T> {
 
     @Override
     public void clear(T gui) {
-        hover.clear(gui);
+        focus.clear(gui);
         blur.clear(gui);
     }
 
-    private void hoverTick(T gui, float delta) {
+    private void focusTick(T gui, double delta) {
 
         if (blur.isRunning()) {
             blur.stop();
         }
 
-        if (!hover.isRunning()) {
-            hover.restart();
+        if (!focus.isRunning()) {
+            focus.restart();
         }
 
-        hover.tick(gui, delta);
+        focus.tick(gui, delta);
     }
 
-    private void blurTick(T gui, float delta) {
-        if (hover.isRunning()) {
-            hover.stop();
+    private void blurTick(T gui, double delta) {
+        if (focus.isRunning()) {
+            focus.stop();
         }
 
         if (!blur.isRunning()) {
@@ -78,6 +78,6 @@ public class FocusFlow<T> implements Flowable<T> {
 
     @Override
     public FocusFlow<T> clone() {
-        return new FocusFlow<>(hover.clone(), blur.clone());
+        return new FocusFlow<>(focus.clone(), blur.clone());
     }
 }

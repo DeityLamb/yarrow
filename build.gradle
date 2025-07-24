@@ -19,7 +19,6 @@ dependencies {
 
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
     withJavadocJar()
     withSourcesJar()
 }
@@ -81,7 +80,7 @@ jreleaser {
         sonatype {
           active = 'ALWAYS'
           url = 'https://central.sonatype.com/api/v1/publisher'
-          stagingRepository('target/staging-deploy')
+          stagingRepository('build/staging-deploy')
         }
       }
     }

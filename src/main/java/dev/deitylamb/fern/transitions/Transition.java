@@ -2,71 +2,72 @@ package dev.deitylamb.fern.transitions;
 
 import java.util.Arrays;
 
-import dev.deitylamb.fern.Easings;
-import dev.deitylamb.fern.Easings.Ease;
-import dev.deitylamb.fern.Fern;
-import dev.deitylamb.fern.Formattable;
-import dev.deitylamb.fern.tweens.Tween;
+import dev.deitylamb.fern.common.Displayable;
+import dev.deitylamb.fern.common.Easings;
+import dev.deitylamb.fern.common.Easings.Ease;
+import dev.deitylamb.fern.common.FernUtils;
 
 public class Transition<T> implements Transitionable<T> {
 
     private boolean running = false;
-    private float elapsed = 0f;
-    private final float duration;
+    private double elapsed = 0;
+    private final double duration;
     private final Ease ease;
 
-    private Tween<T> tween;
-
-    public Transition(float duration, Tween<T> tween, Ease ease) {
-        this.tween = tween;
+    public Transition(double duration, Ease ease) {
         this.duration = duration;
         this.ease = ease;
 
     }
 
-    public Transition(float duration, Tween<T> tween) {
-        this.tween = tween;
+    public Transition(double duration) {
         this.duration = duration;
         this.ease = Easings::linear;
     }
 
-    public float lerp(float start, float end) {
-        return Fern.lerp(progress(), start, end);
+    public double duration() {
+        return duration;
+
     }
 
-    public float progress() {
-        return ease.apply(linearProgress());
+    public Progress progress() {
+        return new Progress(ease.apply(alpha()));
     }
 
-    public float linearProgress() {
-        return Fern.clamp(elapsed / duration, 0f, 1f);
+    public double alpha() {
+        return FernUtils.clamp(elapsed / duration, 0d, 1d);
 
     }
 
     @Override
-    public void tick(T gui, float delta) {
+    public void tick(T gui, double delta) {
 
         if (!this.isRunning()) {
             return;
         }
 
-        this.elapsed = Fern.clamp(elapsed + delta, 0, duration);
+        this.elapsed = FernUtils.clamp(elapsed + delta, 0, duration);
 
-        this.apply(gui, progress());
-
-        if (linearProgress() == 1f) {
-            this.stop();
+        if (alpha() == 1d) {
+            this.pause();
         }
     }
 
     @Override
-    public void apply(T gui, float alpha) {
-        this.tween.apply(gui, alpha);
+    public void seek(double duration) {
+        this.elapsed = FernUtils.modulo(duration, this.duration);
+
+        if (alpha() == 1d) {
+            this.pause();
+        }
+    }
+
+    @Override
+    public void apply(T gui, double alpha) {
     }
 
     @Override
     public void clear(T gui) {
-        this.tween.clear(gui);
     }
 
     @Override
@@ -75,7 +76,7 @@ public class Transition<T> implements Transitionable<T> {
     }
 
     @Override
-    public void run() {
+    public void play() {
         this.running = true;
     }
 
@@ -90,23 +91,25 @@ public class Transition<T> implements Transitionable<T> {
     }
 
     @Override
-    public Transitionable<T> chain(Transitionable<T> transition) {
-        return new ChainTransition<>(Arrays.asList(this.clone(), transition.clone()));
+    public Transitionable<T> then(Transitionable<T> transition) {
+        return new SequenceTransition<>(Arrays.asList(this.clone(), transition.clone()));
     }
 
     @Override
-    public Transitionable<T> reverse() {
-        return new Transition<>(duration, Tween.clone(tween), Easings.blend(ease, (alpha) -> 1f - alpha));
+    public Transitionable<T> ease(Ease ease) {
+        return new Transition<>(duration, Easings.blend(this.ease, ease));
     }
 
     @Override
     public String display(int depth) {
 
-        String tab = Formattable.indent(depth);
+        String tab = Displayable.indent(depth);
 
         return "Transition {\n" +
-                tab + Formattable.INDENT + "duration=" + duration + ",\n" +
-                tab + Formattable.INDENT + "tween=" + tween + "\n" +
+                tab + Displayable.INDENT + "alpha=" + alpha() + ",\n" +
+                tab + Displayable.INDENT + "running=" + running + ",\n" +
+                tab + Displayable.INDENT + "elapsed=" + elapsed + ",\n" +
+                tab + Displayable.INDENT + "duration=" + duration + ",\n" +
                 tab + "}";
     }
 
@@ -117,7 +120,7 @@ public class Transition<T> implements Transitionable<T> {
 
     @Override
     public Transition<T> clone() {
-        return new Transition<>(duration, Tween.clone(tween), ease);
+        return new Transition<>(duration, ease);
     }
 
 }

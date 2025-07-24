@@ -5,16 +5,16 @@ import java.util.stream.Collectors;
 
 import dev.deitylamb.fern.Flowable;
 
-public class CompositeFlow<T> implements Flowable<T> {
+public class ParallelFlow<T> implements Flowable<T> {
 
     private final List<Flowable<T>> flows;
 
-    public CompositeFlow(List<Flowable<T>> flows) {
+    public ParallelFlow(List<Flowable<T>> flows) {
         this.flows = flows;
     }
 
     @Override
-    public void tick(T gui, float delta) {
+    public void tick(T gui, double delta) {
         for (Flowable<T> flow : flows) {
             flow.tick(gui, delta);
         }
@@ -28,7 +28,7 @@ public class CompositeFlow<T> implements Flowable<T> {
     }
 
     @Override
-    public CompositeFlow<T> clone() {
-        return new CompositeFlow<>(this.flows.stream().map(Flowable::clone).collect(Collectors.toList()));
+    public ParallelFlow<T> clone() {
+        return new ParallelFlow<>(this.flows.stream().map(Flowable::clone).collect(Collectors.toList()));
     }
 }

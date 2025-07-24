@@ -1,8 +1,8 @@
-package dev.deitylamb.fern;
+package dev.deitylamb.fern.common;
 
 import java.util.Collections;
 
-public interface Formattable {
+public interface Displayable {
 
   public static String INDENT = "  ";
 

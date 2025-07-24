@@ -9,11 +9,11 @@ class DelayTest {
   @Test
   void delayShouldWork() {
     Transitionable<?> transition = Fern.transition(10).delay(5);
-    transition.run();
+    transition.play();
 
     TestUtils.iter(transition, 5).shouldBe(0);
 
-    TestUtils.iter(transition, 10).shouldBe(t -> t / 10f);
+    TestUtils.iter(transition, 10).shouldBe(t -> t / 10d);
 
     assert transition.isPaused();
   }
@@ -21,15 +21,15 @@ class DelayTest {
   @Test
   void delayShouldWorkBeforeCircular() {
     Transitionable<?> transition = Fern.transition(10).delay(5).circular();
-    transition.run();
+    transition.play();
 
     TestUtils.iter(transition, 5).shouldBe(0);
 
-    TestUtils.iter(transition, 10).shouldBe(t -> t / 10f);
+    TestUtils.iter(transition, 10).shouldBe(t -> t / 10d);
 
     TestUtils.iter(transition, 5).shouldBe(1);
 
-    TestUtils.iter(transition, 10).shouldBe(t -> 1f - t / 10f);
+    TestUtils.iter(transition, 10).shouldBe(t -> 1d - t / 10d);
 
     assert transition.isPaused();
   }
@@ -37,13 +37,13 @@ class DelayTest {
   @Test
   void delayShouldWorkAfterCircular() {
     Transitionable<?> transition = Fern.transition(10).circular().delay(5);
-    transition.run();
+    transition.play();
 
     TestUtils.iter(transition, 5).shouldBe(0);
 
-    TestUtils.iter(transition, 10).shouldBe(t -> t / 10f);
+    TestUtils.iter(transition, 10).shouldBe(t -> t / 10d);
 
-    TestUtils.iter(transition, 10).shouldBe(t -> 1f - t / 10f);
+    TestUtils.iter(transition, 10).shouldBe(t -> 1d - t / 10d);
 
     assert transition.isPaused();
   }
@@ -51,16 +51,16 @@ class DelayTest {
   @Test
   void delayShouldWorkBeforeCircularAndLoop() {
     Transitionable<?> transition = Fern.transition(10).delay(5).circular().loop();
-    transition.run();
+    transition.play();
 
     for (int i = 0; i < 10; i++) {
       TestUtils.iter(transition, 5).shouldBe(0);
 
-      TestUtils.iter(transition, 10).shouldBe(t -> t / 10f);
+      TestUtils.iter(transition, 10).shouldBe(t -> t / 10d);
 
       TestUtils.iter(transition, 5).shouldBe(1);
 
-      TestUtils.iter(transition, 10).shouldBe(t -> 1f - t / 10f);
+      TestUtils.iter(transition, 10).shouldBe(t -> 1d - t / 10d);
     }
 
     assert transition.isRunning();
@@ -69,15 +69,15 @@ class DelayTest {
   @Test
   void delayShouldWorkAfterCircularAndLoop() {
     Transitionable<?> transition = Fern.transition(10).circular().loop().delay(5);
-    transition.run();
+    transition.play();
 
     TestUtils.iter(transition, 5).shouldBe(0);
 
     for (int i = 0; i < 10; i++) {
 
-      TestUtils.iter(transition, 10).shouldBe(t -> t / 10f);
+      TestUtils.iter(transition, 10).shouldBe(t -> t / 10d);
 
-      TestUtils.iter(transition, 10).shouldBe(t -> 1f - t / 10f);
+      TestUtils.iter(transition, 10).shouldBe(t -> 1d - t / 10d);
     }
 
     assert transition.isRunning();
@@ -86,14 +86,14 @@ class DelayTest {
   @Test
   void delayShouldWorkAfterCircularAndBeforeLoop() {
     Transitionable<?> transition = Fern.transition(10).circular().delay(5).loop();
-    transition.run();
+    transition.play();
 
     for (int i = 0; i < 10; i++) {
       TestUtils.iter(transition, 5).shouldBe(0);
 
-      TestUtils.iter(transition, 10).shouldBe(t -> t / 10f);
+      TestUtils.iter(transition, 10).shouldBe(t -> t / 10d);
 
-      TestUtils.iter(transition, 10).shouldBe(t -> 1f - t / 10f);
+      TestUtils.iter(transition, 10).shouldBe(t -> 1d - t / 10d);
     }
 
     assert transition.isRunning();
@@ -103,11 +103,11 @@ class DelayTest {
   void delayShouldWorkWithReset() {
     Transitionable<?> transition = Fern.transition(10).delay(5);
 
-    transition.run();
+    transition.play();
 
     TestUtils.iter(transition, 5).shouldBe(0);
 
-    TestUtils.iter(transition, 7).shouldBe(t -> t / 10f);
+    TestUtils.iter(transition, 7).shouldBe(t -> t / 10d);
 
     transition.reset();
 
@@ -118,7 +118,7 @@ class DelayTest {
   void delayShouldWorkWithPause() {
     Transitionable<?> transition = Fern.transition(10).delay(5);
 
-    transition.run();
+    transition.play();
 
     TestUtils.iter(transition, 3).shouldBe(0);
 
@@ -126,11 +126,11 @@ class DelayTest {
 
     TestUtils.iter(transition, 30).shouldBe(0);
 
-    transition.run();
+    transition.play();
 
     TestUtils.iter(transition, 2).shouldBe(0);
 
-    TestUtils.iter(transition, 7).shouldBe(t -> t / 10f);
+    TestUtils.iter(transition, 7).shouldBe(t -> t / 10d);
   }
 
 }

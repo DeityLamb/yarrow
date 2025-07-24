@@ -2,9 +2,9 @@ package dev.deitylamb.fern;
 
 public interface Flowable<T> {
 
-    void tick(T gui, float delta);
+    void tick(T gui, double delta);
 
-    default void tick(float delta) {
+    default void tick(double delta) {
         this.tick(null, delta);
     }
 
