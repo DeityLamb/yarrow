@@ -3,11 +3,11 @@ package dev.deitylamb.fern.transitions;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import dev.deitylamb.fern.common.Displayable;
 import dev.deitylamb.fern.common.Easings.Ease;
-import dev.deitylamb.fern.common.FernUtils;
 
 public class SequenceTransition<T> implements Transitionable<T> {
     private List<Transitionable<T>> edges;
@@ -24,25 +24,20 @@ public class SequenceTransition<T> implements Transitionable<T> {
     }
 
     @Override
-    public Progress progress() {
-        return active.map(v -> v.progress()).orElse(Progress.ZERO);
-    }
-
-    @Override
     public double alpha() {
         return active.map(v -> v.alpha()).orElse(0d);
     }
 
     @Override
-    public void apply(T gui, double alpha) {
-        this.active.ifPresent(v -> v.apply(gui, alpha));
+    public void apply(T graphics, double alpha) {
+        this.active.ifPresent(v -> v.apply(graphics, alpha));
     }
 
     @Override
-    public void tick(T gui, double delta) {
+    public void tick(T graphics, double delta) {
         boolean run = isRunning();
 
-        this.active.ifPresent(v -> v.tick(gui, delta));
+        this.active.ifPresent(v -> v.tick(graphics, delta));
 
         if (run && !isRunning()) {
             this.active.ifPresent(v -> v.reset());
@@ -52,36 +47,8 @@ public class SequenceTransition<T> implements Transitionable<T> {
     }
 
     @Override
-    public void seek(double duration) {
-
-        boolean run = isRunning();
-
-        this.reset();
-        this.pause();
-
-        double capacity = FernUtils.modulo(duration, this.duration());
-
-        for (Transitionable<T> transition : edges) {
-
-            if (capacity >= transition.duration()) {
-                capacity -= transition.duration();
-                continue;
-            }
-
-            transition.seek(capacity);
-            active = Optional.of(transition);
-            if (run) {
-                transition.play();
-            }
-            return;
-
-        }
-
-    }
-
-    @Override
-    public void clear(T gui) {
-        this.active.ifPresent(v -> v.clear(gui));
+    public void clear(T graphics) {
+        this.active.ifPresent(v -> v.clear(graphics));
     }
 
     @Override
@@ -123,9 +90,23 @@ public class SequenceTransition<T> implements Transitionable<T> {
     }
 
     @Override
+    public SequenceTransition<T> speed(double speed) {
+        return map(v -> v.speed(speed));
+    }
+
+    @Override
     public SequenceTransition<T> ease(Ease ease) {
+        return map(v -> v.ease(ease));
+    }
+
+    @Override
+    public SequenceTransition<T> clone() {
+        return map(Transitionable::clone);
+    }
+
+    private SequenceTransition<T> map(Function<Transitionable<T>, Transitionable<T>> mapper) {
         return new SequenceTransition<>(new ArrayList<>(
-                this.edges.stream().map(v -> v.ease(ease)).collect(Collectors.toList())));
+                this.edges.stream().map(mapper).collect(Collectors.toList())));
     }
 
     private Optional<Transitionable<T>> next() {
@@ -148,11 +129,6 @@ public class SequenceTransition<T> implements Transitionable<T> {
         }
 
         return Optional.of(edges.get(0));
-    }
-
-    @Override
-    public SequenceTransition<T> clone() {
-        return new SequenceTransition<>(this.edges.stream().map(Transitionable::clone).collect(Collectors.toList()));
     }
 
     @Override

@@ -1,8 +1,6 @@
 package dev.deitylamb.fern.transitions.decorators;
 
 import dev.deitylamb.fern.common.Displayable;
-import dev.deitylamb.fern.common.Easings.Ease;
-import dev.deitylamb.fern.common.FernUtils;
 import dev.deitylamb.fern.transitions.Transitionable;
 
 public class RepeatTransition<T> extends TransitionDecorator<T> {
@@ -20,11 +18,17 @@ public class RepeatTransition<T> extends TransitionDecorator<T> {
     }
 
     @Override
-    public void tick(T gui, double delta) {
+    public void tick(T graphics, double delta) {
 
         boolean run = isRunning();
 
-        super.tick(gui, delta);
+        if (delta > inner.duration()) {
+
+            repeats = Math.min(repeats + (int) Math.floor(delta / inner.duration()), times);
+            delta = delta % inner.duration();
+        }
+
+        super.tick(graphics, delta);
 
         if (run && !isRunning()) {
 
@@ -45,16 +49,6 @@ public class RepeatTransition<T> extends TransitionDecorator<T> {
     }
 
     @Override
-    public void seek(double duration) {
-
-        double modulo = FernUtils.modulo(duration, this.duration());
-
-        this.repeats = (int) Math.floor(modulo / inner.duration());
-
-        inner.seek(modulo % inner.duration());
-    }
-
-    @Override
     public double duration() {
         return isInfinityLoop() ? -1 : times * inner.duration();
     }
@@ -68,18 +62,18 @@ public class RepeatTransition<T> extends TransitionDecorator<T> {
     }
 
     @Override
-    public RepeatTransition<T> then(Transitionable<T> transition) {
-        return new RepeatTransition<>(this.inner.then(transition), times);
+    public RepeatTransition<T> speed(double speed) {
+        return new RepeatTransition<>(inner.speed(speed), times);
     }
 
     @Override
-    public Transitionable<T> ease(Ease ease) {
-        return new RepeatTransition<>(inner.ease(ease), times);
+    public RepeatTransition<T> then(Transitionable<T> transition) {
+        return new RepeatTransition<>(inner.then(transition), times);
     }
 
     @Override
     public RepeatTransition<T> clone() {
-        return new RepeatTransition<>(inner, times);
+        return new RepeatTransition<>(inner.clone(), times);
     }
 
     @Override
@@ -93,6 +87,7 @@ public class RepeatTransition<T> extends TransitionDecorator<T> {
         String tab = Displayable.indent(depth);
 
         return "RepeatTransition {\n" +
+                tab + Displayable.INDENT + "repeats=" + repeats + ",\n" +
                 tab + Displayable.INDENT + "times=" + times + ",\n" +
                 tab + Displayable.INDENT + "inner=" + inner.display(depth + 1) + "\n" +
                 tab + "}";

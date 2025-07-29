@@ -14,16 +14,17 @@ public class ParallelFlow<T> implements Flowable<T> {
     }
 
     @Override
-    public void tick(T gui, double delta) {
+    public void tick(T graphics, double delta) {
         for (Flowable<T> flow : flows) {
-            flow.tick(gui, delta);
+            flow.tick(graphics, delta);
+
         }
     }
 
     @Override
-    public void clear(T gui) {
+    public void clear(T graphics) {
         for (Flowable<T> flow : flows) {
-            flow.clear(gui);
+            flow.clear(graphics);
         }
     }
 

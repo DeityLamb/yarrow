@@ -40,14 +40,14 @@ public class TweenBuilder<T> {
     public TweenBuilder<T> add(Tweenable<T> tween, Consumer<T> clear) {
         return from(new Tweenable<T>() {
             @Override
-            public void apply(T gui, double alpha) {
-                tween.apply(gui, alpha);
+            public void apply(T graphics, double alpha) {
+                tween.apply(graphics, alpha);
             }
 
             @Override
-            public void clear(T gui) {
-                tween.clear(gui);
-                clear(gui);
+            public void clear(T graphics) {
+                tween.clear(graphics);
+                clear(graphics);
             }
         });
     }

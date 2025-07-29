@@ -1,0 +1,86 @@
+package dev.deitylamb.fern;
+
+import java.awt.BasicStroke;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import javax.swing.Timer;
+
+import dev.deitylamb.fern.common.Color;
+import dev.deitylamb.fern.common.Easings;
+import dev.deitylamb.fern.common.Easings.Ease;
+import dev.deitylamb.fern.transitions.Transitionable;
+
+public class EaseSample extends JPanel {
+
+  private final Ease easing = Easings.springEase(1.3, 350, 30, 0.5);
+  private final int PADDING = 50;
+
+  private final Transitionable<Graphics> snap = Fern
+      .<Graphics>transition(2000)
+      .delay(100)
+      .ease(easing)
+      .circular()
+      .speed(2)
+      .loop();
+
+  public EaseSample() {
+
+    setBackground(new java.awt.Color(0xff151515));
+    setOpaque(true);
+
+    snap.play();
+
+    Timer timer = new Timer(16, e -> {
+      repaint();
+    });
+    timer.start();
+  }
+
+  @Override
+  protected void paintComponent(Graphics gui) {
+    super.paintComponent(gui);
+
+    drawTrack((Graphics2D) gui);
+
+    snap.tick(gui, 16);
+
+    int size = 50;
+
+    int x = (int) snap.lerp(PADDING, getWidth() - size - PADDING);
+    int y = getHeight() / 2 - size / 2;
+
+    Color color = snap.lerp(Color.RED.withBlue(80), Color.BLUE.withRed(80));
+    gui.setColor(new java.awt.Color(color.argb(), true));
+    gui.fillRoundRect(x, y, size, size, 12, 12);
+  }
+
+  private void drawTrack(Graphics2D g2) {
+    float[] dashPattern = { 15, 10 };
+    g2.setStroke(new BasicStroke(
+        1,
+        BasicStroke.CAP_BUTT,
+        BasicStroke.JOIN_MITER,
+        10,
+        dashPattern,
+        0));
+    g2.setColor(java.awt.Color.DARK_GRAY);
+
+    g2.drawLine(PADDING, getHeight() / 2, getWidth() - PADDING, getHeight() / 2);
+
+  }
+
+  public static void main(String[] args) {
+    SwingUtilities.invokeLater(() -> {
+      JFrame frame = new JFrame("fern");
+      frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      frame.setSize(768, 256);
+      frame.add(new EaseSample());
+      frame.setVisible(true);
+      frame.setLocationRelativeTo(null);
+    });
+  }
+}

@@ -16,16 +16,17 @@ public class CompoundTween<T> implements Tweenable<T> {
     }
 
     @Override
-    public void apply(T gui, double progress) {
+    public void apply(T graphics, double progress) {
 
         for (Tweenable<T> transition : transitions) {
-            transition.apply(gui, progress);
+            transition.apply(graphics, progress);
+
         }
     }
 
     @Override
-    public void clear(T gui) {
-        Tweenable.super.clear(gui);
+    public void clear(T graphics) {
+        Tweenable.super.clear(graphics);
     }
 
     public String toString() {

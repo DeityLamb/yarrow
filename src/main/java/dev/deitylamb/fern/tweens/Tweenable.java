@@ -4,9 +4,9 @@ import java.util.Arrays;
 
 @FunctionalInterface
 public interface Tweenable<T> {
-    void apply(T gui, double alpha);
+    void apply(T graphics, double alpha);
 
-    default void clear(T gui) {
+    default void clear(T graphics) {
     };
 
     default Tweenable<T> merge(Tweenable<T> with) {
@@ -23,7 +23,7 @@ public interface Tweenable<T> {
     }
 
     public static <T> Tweenable<T> empty() {
-        return (gui, alpha) -> {
+        return (graphics, alpha) -> {
         };
     }
 }

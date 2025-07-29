@@ -85,7 +85,7 @@ public class Color implements Displayable {
   }
 
   public static Color lerp(double t, Color one, Color two) {
-    return lerp((float) t, one, two);
+    return lerp((float) FernUtils.clamp(t, 0, 1), one, two);
   }
 
   public int argb() {
@@ -134,6 +134,14 @@ public class Color implements Displayable {
 
   public Color withAlpha(int alpha) {
     return fromARGB(alpha, red(), green(), blue());
+  }
+
+  public Color withOpacity(double opacity) {
+    return fromARGB(
+        (int) FernUtils.clamp(opacity * (double) 255, 0, 255),
+        red(),
+        green(),
+        blue());
   }
 
   @Override

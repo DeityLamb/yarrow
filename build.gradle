@@ -19,9 +19,41 @@ dependencies {
 
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = '1.8'
     withJavadocJar()
     withSourcesJar()
 }
+
+sourceSets {
+    samples {
+        java {
+            srcDirs = ['samples/java']
+        }
+        resources {
+            srcDirs = ['samples/resources']
+        }
+        compileClasspath += main.output
+        runtimeClasspath += main.output
+    }
+}
+
+
+tasks.register('samplesGradient', JavaExec) {
+    group = 'samples'
+    description = 'Runs the GradientSample'
+    classpath = sourceSets.samples.runtimeClasspath
+    mainClass = 'dev.deitylamb.fern.GradientSample'
+    standardInput = System.in
+}
+
+tasks.register('samplesEase', JavaExec) {
+    group = 'samples'
+    description = 'Runs the GradientSample'
+    classpath = sourceSets.samples.runtimeClasspath
+    mainClass = 'dev.deitylamb.fern.EaseSample'
+    standardInput = System.in
+}
+
 
 tasks.named('test') {
     useJUnitPlatform()
@@ -73,7 +105,7 @@ jreleaser {
     active = 'ALWAYS'
     armored = true
   }
-  
+
   deploy {
     maven {
       mavenCentral {

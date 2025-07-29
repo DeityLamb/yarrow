@@ -34,22 +34,13 @@ public class HookPublisher<T> {
     this.subscribers.forEach(HookSubscriber::onPause);
   }
 
-  public void onReset() {
-    this.subscribers.forEach(HookSubscriber::onReset);
-  }
-
-  public void onProgress(T gui, double progress) {
-    this.subscribers.forEach(h -> h.onProgress(gui, progress));
+  public void onProgress(T graphics, double progress) {
+    this.subscribers.forEach(h -> h.onProgress(graphics, progress));
     this.subscribers.forEach(h -> h.onProgress(progress));
   }
 
-  public void onTick(T gui, double delta) {
-    this.subscribers.forEach(h -> h.onTick(gui, delta));
+  public void onTick(T graphics, double delta) {
+    this.subscribers.forEach(h -> h.onTick(graphics, delta));
     this.subscribers.forEach(h -> h.onTick(delta));
-  }
-
-  public void onClear(T gui, double progress) {
-    this.subscribers.forEach(h -> h.onClear(gui));
-    this.subscribers.forEach(h -> h.onClear());
   }
 }

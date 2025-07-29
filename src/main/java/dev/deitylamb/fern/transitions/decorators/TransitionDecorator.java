@@ -1,7 +1,5 @@
 package dev.deitylamb.fern.transitions.decorators;
 
-import dev.deitylamb.fern.common.Easings.Ease;
-import dev.deitylamb.fern.transitions.Progress;
 import dev.deitylamb.fern.transitions.Transitionable;
 
 public abstract class TransitionDecorator<T> implements Transitionable<T> {
@@ -18,15 +16,10 @@ public abstract class TransitionDecorator<T> implements Transitionable<T> {
     public abstract TransitionDecorator<T> clone();
 
     @Override
-    public abstract Transitionable<T> ease(Ease ease);
+    public abstract Transitionable<T> speed(double speed);
 
     @Override
     public abstract Transitionable<T> then(Transitionable<T> transition);
-
-    @Override
-    public Progress progress() {
-        return inner.progress();
-    }
 
     @Override
     public double alpha() {
@@ -39,18 +32,20 @@ public abstract class TransitionDecorator<T> implements Transitionable<T> {
     }
 
     @Override
-    public void apply(T gui, double alpha) {
-        this.inner.apply(gui, alpha);
+    public void apply(T graphics, double alpha) {
+        this.inner.apply(graphics, alpha);
+
     }
 
     @Override
-    public void tick(T gui, double delta) {
-        this.inner.tick(gui, delta);
+    public void tick(T graphics, double delta) {
+        this.inner.tick(graphics, delta);
+
     }
 
     @Override
-    public void clear(T gui) {
-        this.inner.clear(gui);
+    public void clear(T graphics) {
+        this.inner.clear(graphics);
     }
 
     @Override

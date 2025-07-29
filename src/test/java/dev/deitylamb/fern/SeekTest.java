@@ -87,6 +87,8 @@ class SeekTest {
 
         transition.seek(32);
 
+        System.out.println(transition);
+
         assert transition.repeats() == 3;
 
         assert transition.alpha() == 0.2;

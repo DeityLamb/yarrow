@@ -17,6 +17,10 @@ public class FernUtils {
     return Math.max(min, Math.min(val, max));
   }
 
+  public static double positiveModulo(double value, double max) {
+    return value < 0 ? modulo(value, max) : clamp(value, 0, max);
+  }
+
   public static double modulo(double value, double max) {
     return ((value % max) + max) % max;
   }

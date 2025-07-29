@@ -3,8 +3,6 @@ package dev.deitylamb.fern.transitions;
 import java.util.Arrays;
 
 import dev.deitylamb.fern.common.Displayable;
-import dev.deitylamb.fern.common.Easings;
-import dev.deitylamb.fern.common.Easings.Ease;
 import dev.deitylamb.fern.common.FernUtils;
 
 public class Transition<T> implements Transitionable<T> {
@@ -12,26 +10,15 @@ public class Transition<T> implements Transitionable<T> {
     private boolean running = false;
     private double elapsed = 0;
     private final double duration;
-    private final Ease ease;
-
-    public Transition(double duration, Ease ease) {
-        this.duration = duration;
-        this.ease = ease;
-
-    }
 
     public Transition(double duration) {
         this.duration = duration;
-        this.ease = Easings::linear;
+
     }
 
     public double duration() {
         return duration;
 
-    }
-
-    public Progress progress() {
-        return new Progress(ease.apply(alpha()));
     }
 
     public double alpha() {
@@ -40,7 +27,7 @@ public class Transition<T> implements Transitionable<T> {
     }
 
     @Override
-    public void tick(T gui, double delta) {
+    public void tick(T graphics, double delta) {
 
         if (!this.isRunning()) {
             return;
@@ -48,26 +35,21 @@ public class Transition<T> implements Transitionable<T> {
 
         this.elapsed = FernUtils.clamp(elapsed + delta, 0, duration);
 
-        if (alpha() == 1d) {
+        if (isEnded()) {
             this.pause();
         }
     }
 
-    @Override
-    public void seek(double duration) {
-        this.elapsed = FernUtils.modulo(duration, this.duration);
-
-        if (alpha() == 1d) {
-            this.pause();
-        }
+    public boolean isEnded() {
+        return alpha() == 1d;
     }
 
     @Override
-    public void apply(T gui, double alpha) {
+    public void apply(T graphics, double alpha) {
     }
 
     @Override
-    public void clear(T gui) {
+    public void clear(T graphics) {
     }
 
     @Override
@@ -91,13 +73,13 @@ public class Transition<T> implements Transitionable<T> {
     }
 
     @Override
-    public Transitionable<T> then(Transitionable<T> transition) {
-        return new SequenceTransition<>(Arrays.asList(this.clone(), transition.clone()));
+    public Transitionable<T> speed(double speed) {
+        return new Transition<>(Math.max(0, duration / speed));
     }
 
     @Override
-    public Transitionable<T> ease(Ease ease) {
-        return new Transition<>(duration, Easings.blend(this.ease, ease));
+    public Transitionable<T> then(Transitionable<T> transition) {
+        return new SequenceTransition<>(Arrays.asList(this.clone(), transition.clone()));
     }
 
     @Override
@@ -120,7 +102,7 @@ public class Transition<T> implements Transitionable<T> {
 
     @Override
     public Transition<T> clone() {
-        return new Transition<>(duration, ease);
+        return new Transition<>(duration);
     }
 
 }

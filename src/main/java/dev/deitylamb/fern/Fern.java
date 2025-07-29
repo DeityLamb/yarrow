@@ -29,6 +29,7 @@ public class Fern {
 
     public static <T> ParallelFlow<T> parallel(List<Flowable<T>> transitions) {
         return new ParallelFlow<T>(transitions);
+
     }
 
 }

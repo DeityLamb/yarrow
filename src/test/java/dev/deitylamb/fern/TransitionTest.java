@@ -18,6 +18,30 @@ class TransitionTest {
     }
 
     @Test
+    void transitionShouldBeOneAfterEnd() {
+        Transitionable<?> transition = Fern.transition(10);
+        transition.play();
+
+        assert transition.isRunning();
+
+        TestUtils.iter(transition, 10).shouldBe(t -> t / 10d);
+
+        assert transition.isPaused();
+
+        TestUtils.iter(transition, 6).shouldBe(1d);
+    }
+
+    @Test
+    void easeShouldWork() {
+        Transitionable<?> transition = Fern.transition(10).ease(v -> v * 2d);
+        transition.play();
+
+        TestUtils.iter(transition, 10).shouldBe(t -> t / 5d);
+
+        assert transition.isPaused();
+    }
+
+    @Test
     void reverseShouldWork() {
         Transitionable<?> transition = Fern.transition(10).reverse();
         transition.play();

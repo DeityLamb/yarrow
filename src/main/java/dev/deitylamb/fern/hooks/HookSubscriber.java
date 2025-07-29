@@ -8,25 +8,16 @@ public interface HookSubscriber<T> {
   default void onPause() {
   }
 
-  default void onReset() {
-  }
-
-  default void onTick(T gui, double delta) {
+  default void onTick(T graphics, double delta) {
   }
 
   default void onTick(double delta) {
   }
 
-  default void onProgress(T gui, double progress) {
+  default void onProgress(T graphics, double progress) {
   }
 
   default void onProgress(double progress) {
-  }
-
-  default void onClear(T gui) {
-  }
-
-  default void onClear() {
   }
 
   @FunctionalInterface
@@ -58,28 +49,14 @@ public interface HookSubscriber<T> {
   }
 
   @FunctionalInterface
-  interface OnReset {
-    void onReset();
-
-    default <T> HookSubscriber<T> asHookable() {
-      return new HookSubscriber<T>() {
-        @Override
-        public void onReset() {
-          OnReset.this.onReset();
-        }
-      };
-    }
-  }
-
-  @FunctionalInterface
   interface OnTick<T> {
-    void onTick(T gui, double delta);
+    void onTick(T graphics, double delta);
 
     default HookSubscriber<T> asHookable() {
       return new HookSubscriber<T>() {
         @Override
-        public void onTick(T gui, double delta) {
-          OnTick.this.onTick(gui, delta);
+        public void onTick(T graphics, double delta) {
+          OnTick.this.onTick(graphics, delta);
         }
       };
     }
@@ -101,13 +78,13 @@ public interface HookSubscriber<T> {
 
   @FunctionalInterface
   interface OnProgress<T> {
-    void onProgress(T gui, double progress);
+    void onProgress(T graphics, double progress);
 
     default HookSubscriber<T> asHookable() {
       return new HookSubscriber<T>() {
         @Override
-        public void onProgress(T gui, double progress) {
-          OnProgress.this.onProgress(gui, progress);
+        public void onProgress(T graphics, double progress) {
+          OnProgress.this.onProgress(graphics, progress);
         }
       };
     }
@@ -127,31 +104,4 @@ public interface HookSubscriber<T> {
     }
   }
 
-  @FunctionalInterface
-  interface OnClear<T> {
-    void onClear(T gui);
-
-    default HookSubscriber<T> asHookable() {
-      return new HookSubscriber<T>() {
-        @Override
-        public void onClear(T gui) {
-          OnClear.this.onClear(gui);
-        }
-      };
-    }
-  }
-
-  @FunctionalInterface
-  interface OnClearNoGui {
-    void onClear();
-
-    default <T> HookSubscriber<T> asHookable() {
-      return new HookSubscriber<T>() {
-        @Override
-        public void onClear() {
-          OnClearNoGui.this.onClear();
-        }
-      };
-    }
-  }
 }

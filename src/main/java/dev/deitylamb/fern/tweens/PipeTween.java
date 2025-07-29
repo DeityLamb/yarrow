@@ -17,13 +17,13 @@ public class PipeTween<T> implements Tweenable<T> {
     }
 
     @Override
-    public void apply(T gui, double alpha) {
-        this.transition.apply(gui, this.via.apply(alpha));
+    public void apply(T graphics, double alpha) {
+        this.transition.apply(graphics, this.via.apply(alpha));
     }
 
     @Override
-    public void clear(T gui) {
-        this.transition.clear(gui);
+    public void clear(T graphics) {
+        this.transition.clear(graphics);
     }
 
     public PipeTween<T> clone() {
