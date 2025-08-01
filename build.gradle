@@ -40,17 +40,33 @@ sourceSets {
 
 tasks.register('samplesGradient', JavaExec) {
     group = 'samples'
-    description = 'Runs the GradientSample'
+    description = 'Runs the sample'
     classpath = sourceSets.samples.runtimeClasspath
     mainClass = 'dev.deitylamb.fern.GradientSample'
     standardInput = System.in
 }
 
-tasks.register('samplesEase', JavaExec) {
+tasks.register('samplesSnap', JavaExec) {
     group = 'samples'
-    description = 'Runs the GradientSample'
+    description = 'Runs the sample'
     classpath = sourceSets.samples.runtimeClasspath
-    mainClass = 'dev.deitylamb.fern.EaseSample'
+    mainClass = 'dev.deitylamb.fern.SnapSample'
+    standardInput = System.in
+}
+
+tasks.register('samplesFadeInOut', JavaExec) {
+    group = 'samples'
+    description = 'Runs the sample'
+    classpath = sourceSets.samples.runtimeClasspath
+    mainClass = 'dev.deitylamb.fern.FadeInOutSample'
+    standardInput = System.in
+}
+
+tasks.register('recordGif', JavaExec) {
+    group = 'samples'
+    description = 'Runs the sample'
+    classpath = sourceSets.samples.runtimeClasspath
+    mainClass = 'dev.deitylamb.fern.SwingGifRecorder'
     standardInput = System.in
 }
 

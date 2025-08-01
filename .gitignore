@@ -11,3 +11,8 @@ bin
 .settings
 
 maven.sh
+
+# vitepress
+docs/.vitepress/dist
+docs/.vitepress/cache
+node_modules

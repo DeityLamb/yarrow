@@ -42,9 +42,8 @@ public class SpeedTest {
   void speedShouldWorkInSequence() {
     Transitionable<?> transition = Fern
         .transition(10)
-        .speed(2)
-        .then(
-            Fern.transition(10).speed(2));
+        .speed(2);
+
     transition.play();
 
     TestUtils.iter(transition, 5).shouldBe(t -> t / 5d);

@@ -14,30 +14,27 @@ import dev.deitylamb.fern.common.Easings;
 import dev.deitylamb.fern.common.Easings.Ease;
 import dev.deitylamb.fern.transitions.Transitionable;
 
-public class EaseSample extends JPanel {
+public class SnapSample extends JPanel {
 
   private final Ease easing = Easings.springEase(1.3, 350, 30, 0.5);
   private final int PADDING = 50;
 
-  private final Transitionable<Graphics> snap = Fern
+  private final Transitionable<Graphics> transition = Fern
       .<Graphics>transition(2000)
-      .delay(100)
       .ease(easing)
       .circular()
       .speed(2)
+      .delay(100)
       .loop();
 
-  public EaseSample() {
+  public SnapSample() {
 
+    setSize(768, 256);
     setBackground(new java.awt.Color(0xff151515));
     setOpaque(true);
 
-    snap.play();
+    transition.play();
 
-    Timer timer = new Timer(16, e -> {
-      repaint();
-    });
-    timer.start();
   }
 
   @Override
@@ -46,14 +43,14 @@ public class EaseSample extends JPanel {
 
     drawTrack((Graphics2D) gui);
 
-    snap.tick(gui, 16);
+    transition.tick(gui, 16);
 
     int size = 50;
 
-    int x = (int) snap.lerp(PADDING, getWidth() - size - PADDING);
+    int x = (int) transition.lerp(PADDING, getWidth() - size - PADDING);
     int y = getHeight() / 2 - size / 2;
 
-    Color color = snap.lerp(Color.RED.withBlue(80), Color.BLUE.withRed(80));
+    Color color = transition.lerp(Color.RED.withBlue(80), Color.BLUE.withRed(80));
     gui.setColor(new java.awt.Color(color.argb(), true));
     gui.fillRoundRect(x, y, size, size, 12, 12);
   }
@@ -78,9 +75,12 @@ public class EaseSample extends JPanel {
       JFrame frame = new JFrame("fern");
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       frame.setSize(768, 256);
-      frame.add(new EaseSample());
+      frame.add(new SnapSample());
       frame.setVisible(true);
       frame.setLocationRelativeTo(null);
+
+      new Timer(16, e -> frame.repaint()).start();
+
     });
   }
 }

@@ -24,10 +24,6 @@ public class Easings {
         return 1 - (1 - t) * (1 - t);
     };
 
-    public static Double easeInOutQuard(Double t) {
-        return t < 0.5d ? 2 * t * t : -1 + (4 - 2 * t) * t;
-    };
-
     public static Double easeInOutQuad(Double t) {
         return t < 0.5d ? 2 * t * t : -1 + (4 - 2 * t) * t;
     };
