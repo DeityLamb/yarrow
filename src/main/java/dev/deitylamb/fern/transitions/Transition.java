@@ -45,14 +45,6 @@ public class Transition<T> implements Transitionable<T> {
     }
 
     @Override
-    public void apply(T graphics, double alpha) {
-    }
-
-    @Override
-    public void clear(T graphics) {
-    }
-
-    @Override
     public boolean isRunning() {
         return running;
     }

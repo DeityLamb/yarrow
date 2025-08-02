@@ -1,7 +1,6 @@
 
 <center>
-
-<img src="/fern-white.svg" width="200px" style="border-radius: 200px; display: inline">
+<img src="/assets/fern-white.svg" width="200px" style="border-radius: 200px; display: inline;">
 </center>
 
 

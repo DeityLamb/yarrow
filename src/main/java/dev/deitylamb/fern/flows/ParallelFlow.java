@@ -22,13 +22,6 @@ public class ParallelFlow<T> implements Flowable<T> {
     }
 
     @Override
-    public void clear(T graphics) {
-        for (Flowable<T> flow : flows) {
-            flow.clear(graphics);
-        }
-    }
-
-    @Override
     public ParallelFlow<T> clone() {
         return new ParallelFlow<>(this.flows.stream().map(Flowable::clone).collect(Collectors.toList()));
     }

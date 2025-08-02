@@ -20,9 +20,13 @@ public interface Transitionable<T> extends Flowable<T>, Displayable {
         return ease.apply(alpha());
     }
 
-    double duration();
+    void tick(T graphics, double delta);
 
-    void apply(T graphics, double alpha);
+    default void tick(double delta) {
+        this.tick(null, delta);
+    }
+
+    double duration();
 
     boolean isRunning();
 
@@ -93,11 +97,11 @@ public interface Transitionable<T> extends Flowable<T>, Displayable {
         return FernUtils.lerp(this.alpha(ease), from, to);
     }
 
-    default double lerp(int from, int to) {
+    default int lerp(int from, int to) {
         return FernUtils.lerp(this.alpha(), from, to);
     }
 
-    default double lerp(int from, int to, Function<Double, Double> ease) {
+    default int lerp(int from, int to, Function<Double, Double> ease) {
         return FernUtils.lerp(this.alpha(ease), from, to);
     }
 
@@ -105,15 +109,15 @@ public interface Transitionable<T> extends Flowable<T>, Displayable {
         return FernUtils.lerp(this.alpha(), from, to);
     }
 
-    default double lerp(long from, long to, Function<Double, Double> ease) {
+    default long lerp(long from, long to, Function<Double, Double> ease) {
         return FernUtils.lerp(this.alpha(ease), from, to);
     }
 
-    default double lerp(float from, float to) {
+    default float lerp(float from, float to) {
         return FernUtils.lerp(this.alpha(), from, to);
     }
 
-    default double lerp(float from, float to, Function<Double, Double> ease) {
+    default float lerp(float from, float to, Function<Double, Double> ease) {
         return FernUtils.lerp(this.alpha(ease), from, to);
     }
 

@@ -29,11 +29,6 @@ public class SequenceTransition<T> implements Transitionable<T> {
     }
 
     @Override
-    public void apply(T graphics, double alpha) {
-        this.active.ifPresent(v -> v.apply(graphics, alpha));
-    }
-
-    @Override
     public void tick(T graphics, double delta) {
         boolean run = isRunning();
 
@@ -44,11 +39,6 @@ public class SequenceTransition<T> implements Transitionable<T> {
             this.active = next();
             this.active.ifPresent(v -> v.play());
         }
-    }
-
-    @Override
-    public void clear(T graphics) {
-        this.active.ifPresent(v -> v.clear(graphics));
     }
 
     @Override

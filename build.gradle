@@ -62,6 +62,15 @@ tasks.register('samplesFadeInOut', JavaExec) {
     standardInput = System.in
 }
 
+tasks.register('samplesFocus', JavaExec) {
+    group = 'samples'
+    description = 'Runs the sample'
+    classpath = sourceSets.samples.runtimeClasspath
+    mainClass = 'dev.deitylamb.fern.FocusSample'
+    standardInput = System.in
+}
+
+
 tasks.register('recordGif', JavaExec) {
     group = 'samples'
     description = 'Runs the sample'

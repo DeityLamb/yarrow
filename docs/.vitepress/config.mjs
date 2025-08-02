@@ -4,11 +4,23 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   title: "Fern - Lightweight Java library for animations and transitions",
   description: "Fern - framework agnostic, lightweight Java library for animations and transitions with care about DX",
+  cleanUrls: true,
+  appearance: 'dark',
   head: [
-    ['link', { rel: 'icon', href: '/fern-white.svg' }]
+    ['link', { rel: 'icon', href: '/assets/fern-white.svg' }]
   ],
   
   themeConfig: {
+
+    search: {
+      provider: 'local'
+    },
+
+    outline: {
+      label: 'Quick Links',
+      level: [2,4]
+    },
+
     footer: {
       message: 'Released under the MIT License.'
     },
@@ -21,8 +33,8 @@ export default defineConfig({
     
     siteTitle: "FERN",
     logo: {
-      light: "/fern-black.svg",
-      dark: "/fern-white.svg",
+      light: "/assets/fern-black.svg",
+      dark: "/assets/fern-white.svg",
       alt: "Fern logo"
     },
     // https://vitepress.dev/reference/default-theme-config
@@ -41,7 +53,9 @@ export default defineConfig({
         text: 'Core Concepts',
         items: [
           { text: 'Control Flow', link: '/core/controlling' },
-          { text: 'Decorators & Sequences', link: '/core/decorators' },
+          { text: 'Decorators and Sequences', link: '/core/decorators' },
+          { text: 'Special Flows', link: '/core/flow' },
+          { text: 'Tweens', link: '/core/tweens' },
         ]
       }
     ],

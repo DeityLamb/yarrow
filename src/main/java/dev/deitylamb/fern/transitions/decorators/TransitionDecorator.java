@@ -32,20 +32,9 @@ public abstract class TransitionDecorator<T> implements Transitionable<T> {
     }
 
     @Override
-    public void apply(T graphics, double alpha) {
-        this.inner.apply(graphics, alpha);
-
-    }
-
-    @Override
     public void tick(T graphics, double delta) {
         this.inner.tick(graphics, delta);
 
-    }
-
-    @Override
-    public void clear(T graphics) {
-        this.inner.clear(graphics);
     }
 
     @Override

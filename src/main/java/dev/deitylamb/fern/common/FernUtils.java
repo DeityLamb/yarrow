@@ -33,12 +33,12 @@ public class FernUtils {
     return (int) Math.round(lerp(alpha, (double) from, (double) to));
   }
 
-  public static double lerp(double alpha, long from, long to) {
-    return lerp(alpha, (double) from, (double) to);
+  public static long lerp(double alpha, long from, long to) {
+    return (long) lerp(alpha, (double) from, (double) to);
   }
 
-  public static double lerp(double alpha, float from, float to) {
-    return lerp(alpha, (double) from, (double) to);
+  public static float lerp(double alpha, float from, float to) {
+    return (float) lerp(alpha, (double) from, (double) to);
   }
 
   public static Color lerp(double alpha, Color from, Color to) {

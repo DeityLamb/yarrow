@@ -27,7 +27,7 @@ public class DelayTransition<T> extends TransitionDecorator<T> {
         }
 
         if (run && elapsed < delay) {
-            this.apply(graphics, 0d);
+            inner.tick(graphics, 0d);
             this.elapsed = FernUtils.clamp(elapsed + delta, 0, delay);
             return;
         }

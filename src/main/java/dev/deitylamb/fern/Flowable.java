@@ -8,8 +8,6 @@ public interface Flowable<T> {
         this.tick(null, delta);
     }
 
-    void clear(T graphics);
-
     Flowable<T> clone();
 
 }

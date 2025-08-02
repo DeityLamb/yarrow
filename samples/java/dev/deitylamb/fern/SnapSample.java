@@ -3,6 +3,7 @@ package dev.deitylamb.fern;
 import java.awt.BasicStroke;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -40,6 +41,9 @@ public class SnapSample extends JPanel {
   @Override
   protected void paintComponent(Graphics gui) {
     super.paintComponent(gui);
+
+    ((Graphics2D) gui).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+    ((Graphics2D) gui).setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
 
     drawTrack((Graphics2D) gui);
 
