@@ -24,122 +24,25 @@ java {
     withSourcesJar()
 }
 
-sourceSets {
-    samples {
-        java {
-            srcDirs = ['samples/java']
-        }
-        resources {
-            srcDirs = ['samples/resources']
-        }
-        compileClasspath += main.output
-        runtimeClasspath += main.output
-    }
-}
-
-
-tasks.register('samplesGradient', JavaExec) {
-    group = 'samples'
-    description = 'Runs the sample'
-    classpath = sourceSets.samples.runtimeClasspath
-    mainClass = 'dev.deitylamb.fern.GradientSample'
-    standardInput = System.in
-}
-
-tasks.register('samplesSnap', JavaExec) {
-    group = 'samples'
-    description = 'Runs the sample'
-    classpath = sourceSets.samples.runtimeClasspath
-    mainClass = 'dev.deitylamb.fern.SnapSample'
-    standardInput = System.in
-}
-
-tasks.register('samplesFadeInOut', JavaExec) {
-    group = 'samples'
-    description = 'Runs the sample'
-    classpath = sourceSets.samples.runtimeClasspath
-    mainClass = 'dev.deitylamb.fern.FadeInOutSample'
-    standardInput = System.in
-}
-
-tasks.register('samplesFocus', JavaExec) {
-    group = 'samples'
-    description = 'Runs the sample'
-    classpath = sourceSets.samples.runtimeClasspath
-    mainClass = 'dev.deitylamb.fern.FocusSample'
-    standardInput = System.in
-}
-
-
-tasks.register('recordGif', JavaExec) {
-    group = 'samples'
-    description = 'Runs the sample'
-    classpath = sourceSets.samples.runtimeClasspath
-    mainClass = 'dev.deitylamb.fern.SwingGifRecorder'
-    standardInput = System.in
-}
-
-
 tasks.named('test') {
     useJUnitPlatform()
 }
 
 publishing {
     publications {
-        maven(MavenPublication) {
-            groupId = GROUP
-            artifactId = 'fern'
-
+        mavenJava(MavenPublication) {
             from components.java
-
-            pom {
-                name = 'fern'
-                description = 'Simple and lightweight transition library for Java'
-                url = 'https://github.com/deitylamb/fern'
-                inceptionYear = '2025'
-                licenses {
-                    license {
-                        name = 'MIT'
-                        url = 'https://opensource.org/licenses/MIT'
-                    }
-                }
-                developers {
-                    developer {
-                        id = 'deitylamb'
-                        name = 'Oleksii Rakytianskyi'
-                    }
-                }
-                scm {
-                    connection = 'scm:git:https://github.com/deitylamb/fern.git'
-                    developerConnection = 'scm:git:ssh://github.com/deitylamb/fern.git'
-                    url = 'http://github.com/deitylamb/fern'
-                }
+        }
+    }
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = "https://maven.pkg.github.com/deitylamb/harmoniya"
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
             }
         }
     }
-
-    repositories {
-        maven {
-            url = layout.buildDirectory.dir('staging-deploy')
-        }
-    }
 }
 
-jreleaser {
-  signing {
-    active = 'ALWAYS'
-    armored = true
-  }
-
-  deploy {
-    maven {
-      mavenCentral {
-        sonatype {
-          active = 'ALWAYS'
-          url = 'https://central.sonatype.com/api/v1/publisher'
-          stagingRepository('build/staging-deploy')
-        }
-      }
-    }
-  }
-}

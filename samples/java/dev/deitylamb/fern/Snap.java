@@ -15,7 +15,7 @@ import dev.deitylamb.fern.common.Easings;
 import dev.deitylamb.fern.common.Easings.Ease;
 import dev.deitylamb.fern.transitions.Transitionable;
 
-public class SnapSample extends JPanel {
+public class Snap extends JPanel {
 
   private final Ease easing = Easings.springEase(1.3, 350, 30, 0.5);
   private final int PADDING = 50;
@@ -28,7 +28,7 @@ public class SnapSample extends JPanel {
       .delay(100)
       .loop();
 
-  public SnapSample() {
+  public Snap() {
 
     setSize(768, 256);
     setBackground(new java.awt.Color(0xff151515));
@@ -79,7 +79,7 @@ public class SnapSample extends JPanel {
       JFrame frame = new JFrame("fern");
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       frame.setSize(768, 256);
-      frame.add(new SnapSample());
+      frame.add(new Snap());
       frame.setVisible(true);
       frame.setLocationRelativeTo(null);
 

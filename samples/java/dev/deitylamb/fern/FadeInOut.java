@@ -11,7 +11,7 @@ import javax.swing.Timer;
 import dev.deitylamb.fern.common.Easings;
 import dev.deitylamb.fern.transitions.Transitionable;
 
-public class FadeInOutSample {
+public class FadeInOut {
 
   // frames per second
   private static int FPS = 60;

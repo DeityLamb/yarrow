@@ -1,0 +1,46 @@
+plugins {
+    id 'java'
+}
+
+group = project.findProperty('GROUP')
+version = project.findProperty('VERSION')
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(':')
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = '1.8'
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['java']
+        }
+        resources {
+            srcDirs = ['resources']
+        }
+    }
+}
+
+sourceSets.main.java.srcDirs.each { dir ->
+    file(dir).eachFileRecurse { file ->
+        if (file.name.endsWith('.java')) {
+            def sampleName = file.name.replace('.java', '')
+            def taskName = "${sampleName}"
+            tasks.register(taskName, JavaExec) {
+                group = 'samples'
+                description = "Runs the ${sampleName} sample"
+                classpath = sourceSets.main.runtimeClasspath
+                mainClass = "dev.deitylamb.fern.${sampleName}"
+                standardInput = System.in
+            }
+        }
+    }
+}

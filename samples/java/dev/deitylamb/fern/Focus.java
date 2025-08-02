@@ -16,12 +16,15 @@ import dev.deitylamb.fern.common.Easings;
 import dev.deitylamb.fern.flows.FocusFlow;
 import dev.deitylamb.fern.transitions.Transitionable;
 
-public class FocusSample {
+public class Focus {
 
   // frames per second
-  private static int FPS = 30;
+  private static int FPS = 60;
   // time between frames
   private static int delta = 1000 / FPS;
+
+  private static final Transitionable<?> transition = Fern.transition(150)
+      .ease(Easings::easeOutCubic);
 
   public static void main(String[] args) {
 
@@ -31,9 +34,6 @@ public class FocusSample {
   }
 
   public static JFrame createFrame() {
-
-    Transitionable<?> transition = Fern.transition(500)
-        .ease(Easings::easeOutQuad);
 
     FocusFlow<?> focus = Fern.focus(transition);
 

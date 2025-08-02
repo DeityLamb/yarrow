@@ -22,7 +22,7 @@ import javax.imageio.stream.ImageOutputStream;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-public class SwingGifRecorder {
+public class GifRecorder {
   private final JFrame target;
   private final int totalFrames;
   private final String outputFile;
@@ -31,7 +31,7 @@ public class SwingGifRecorder {
   private Method tickMethod = null;
   private boolean tickMethodChecked = false;
 
-  public SwingGifRecorder(JFrame target, int fps, int animationDurationMs, String outputFile, boolean loopGif) {
+  public GifRecorder(JFrame target, int fps, int animationDurationMs, String outputFile, boolean loopGif) {
     this.target = target;
     this.tickMillis = 1000 / fps;
     this.totalFrames = (int) Math.round((animationDurationMs / 1000.0) * fps);
@@ -198,7 +198,7 @@ public class SwingGifRecorder {
   }
 
   public static void main(String[] args) throws IOException {
-    SwingGifRecorder recorder = new SwingGifRecorder(FocusSample.createFrame(), 30, 15000, "focus.gif", true);
+    GifRecorder recorder = new GifRecorder(Focus.createFrame(), 30, 15000, "focus.gif", true);
     recorder.record();
     System.out.println("Recorded");
   }
