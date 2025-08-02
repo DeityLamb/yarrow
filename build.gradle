@@ -5,8 +5,8 @@ plugins {
 }
 
 
-group = project.findProperty('GROUP')
-version = project.findProperty('VERSION')
+group = project.findProperty('group')
+version = project.findProperty('version')
 
 repositories {
     mavenCentral()
