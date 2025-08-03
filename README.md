@@ -2,7 +2,7 @@
 # EARLY ALPHA
 
 
-<img align="right" src="./docs/assets/fern-white.svg" width="120px" style="border-radius: 200px; display: inline;">
+<img align="center" src="./docs/assets/fern-white.svg" width="120px" style="border-radius: 200px; display: inline;">
 
 ## Fern - Getting Started
 
