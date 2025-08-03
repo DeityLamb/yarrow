@@ -5,6 +5,7 @@
     "docs:preview": "vitepress preview docs"
   },
   "devDependencies": {
+    "@types/node": "^24.1.0",
     "highlight.js": "^11.11.1",
     "sass-embedded": "^1.89.2",
     "vitepress": "^1.6.3",
