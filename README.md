@@ -7,9 +7,11 @@
 
 Fern is a lightweight Java library for animations and transitions
 
-It is **framework-agnostic**, meaning it works with any graphics or UI framework without requiring deep integration or framework-specific dependencies
+It is **framework-agnostic**, meaning it works with any graphics or  
+UI framework without requiring deep integration or framework-specific dependencies
 
-It uses a **fluent API**, allowing you to create readable, chainable animation code. This makes defining complex animations and smooth transitions both simple and expressive
+It uses a **fluent API**, allowing you to create readable, chainable animation code.  
+This makes defining complex animations and smooth transitions both simple and expressive
 
 Check documentation at [https://fern.deitylamb.dev](https://fern.deitylamb.dev)
 
