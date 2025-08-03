@@ -22,7 +22,12 @@ You can install Fern using Gradle / Maven from the [GitHub Packages](https://git
 
 ```groovy-vue [build.gradle]
 repositories {
-    maven { url "https://maven.pkg.github.com/deitylamb/fern" }
+    maven {
+        url "https://maven.pkg.github.com/deitylamb/fern"
+        content {
+            includeGroup "dev.deitylamb"
+        }
+    }
 }
 
 dependencies {

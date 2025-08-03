@@ -29,10 +29,6 @@ repositories {
 }
 
 dependencies {
-    implementation "dev.deitylamb:fern:0.1.2"
-}
-
-dependencies {
     implementation "dev.deitylamb:fern:{version}"
 }
 ```
