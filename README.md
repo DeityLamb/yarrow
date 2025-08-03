@@ -1,7 +1,7 @@
 
-<center>
+# EARLY ALPHA
+
 <img src="./docs/assets/fern-white.svg" width="120px" style="border-radius: 200px; display: inline;">
-</center>
 
 # Fern - Getting Started
 
@@ -20,11 +20,20 @@ You can install Fern using Gradle / Maven from the [GitHub Packages](https://git
 
 ```groovy
 repositories {
-    maven { url "https://maven.pkg.github.com/deitylamb/fern" }
+    maven {
+        url "https://maven.pkg.github.com/deitylamb/fern"
+        content {
+            includeGroup "dev.deitylamb"
+        }
+    }
 }
 
 dependencies {
-    implementation "dev.deitylamb:fern:{{ data.version }}"
+    implementation "dev.deitylamb:fern:0.1.2"
+}
+
+dependencies {
+    implementation "dev.deitylamb:fern:{version}"
 }
 ```
 
@@ -40,7 +49,7 @@ dependencies {
     <dependency>
         <groupId>dev.deitylamb</groupId>
         <artifactId>fern</artifactId>
-        <version>{{ data.version }}</version>
+        <version>{version}</version>
     </dependency>
 </dependencies>
 ```
