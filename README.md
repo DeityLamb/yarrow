@@ -1,8 +1,8 @@
 
 # EARLY ALPHA
 
-<img src="./docs/assets/fern-white.svg" width="120px" style="border-radius: 200px; display: inline;">
 
+<img align="right" src="./docs/assets/fern-white.svg" width="120px" style="border-radius: 200px; display: inline;">
 # Fern - Getting Started
 
 Fern is a lightweight Java library for animations and transitions
