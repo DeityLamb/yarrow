@@ -22,7 +22,7 @@ export default defineConfig({
     },
 
     footer: {
-      message: 'Released under the MIT License.'
+      message: 'Made with ❤️'
     },
     
 

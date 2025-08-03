@@ -1,9 +1,6 @@
-<script setup>
-import { data } from './version.data.js'
-</script>
 
 <center>
-<img src="/assets/fern-white.svg" width="200px" style="border-radius: 200px; display: inline;">
+<img src="./docs/assets/fern-white.svg" width="120px" style="border-radius: 200px; display: inline;">
 </center>
 
 # Fern - Getting Started
@@ -14,13 +11,14 @@ It is **framework-agnostic**, meaning it works with any graphics or UI framework
 
 It uses a **fluent API**, allowing you to create readable, chainable animation code. This makes defining complex animations and smooth transitions both simple and expressive
 
+Check documentation at [https://fern.deitylamb.dev](https://fern.deitylamb.dev)
+
 ## Installation
 
 You can install Fern using Gradle / Maven from the [GitHub Packages](https://github.com/deitylamb/fern/packages) registry
 
-::: code-group
 
-```groovy-vue [build.gradle]
+```groovy
 repositories {
     maven { url "https://maven.pkg.github.com/deitylamb/fern" }
 }
@@ -30,7 +28,7 @@ dependencies {
 }
 ```
 
-```xml-vue [pom.xml]
+```xml
 <repositories>
     <repository>
         <id>github</id>
@@ -47,8 +45,6 @@ dependencies {
 </dependencies>
 ```
 
-:::
-
 ### Direct JAR
 
 
@@ -56,7 +52,7 @@ Or download the latest JAR file from [GitHub Releases](https://github.com/deityl
 
 ## Contributing
 
-For information on contributing to Fern, please refer to the project's GitHub repository [https://github.com/deitylamb/fern](https://github.com/deitylamb/fern)
+todo ?
 
 ## License
 
