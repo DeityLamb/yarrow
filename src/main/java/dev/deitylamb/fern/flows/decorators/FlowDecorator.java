@@ -1,25 +1,25 @@
-package dev.deitylamb.fern.transitions.decorators;
+package dev.deitylamb.fern.flows.decorators;
 
-import dev.deitylamb.fern.transitions.Transitionable;
+import dev.deitylamb.fern.flows.Flow;
 
-public abstract class TransitionDecorator<T> implements Transitionable<T> {
+public abstract class FlowDecorator<T> implements Flow<T> {
 
-    protected final Transitionable<T> inner;
+    protected final Flow<T> inner;
 
-    TransitionDecorator(Transitionable<T> transition) {
-        this.inner = transition;
+    FlowDecorator(Flow<T> inner) {
+        this.inner = inner;
     }
 
     // Each decorator should decide how to clone and in which order to apply itself.
 
     @Override
-    public abstract TransitionDecorator<T> clone();
+    public abstract FlowDecorator<T> clone();
 
     @Override
-    public abstract Transitionable<T> speed(double speed);
+    public abstract Flow<T> speed(double speed);
 
     @Override
-    public abstract Transitionable<T> then(Transitionable<T> transition);
+    public abstract Flow<T> then(Flow<T> flow);
 
     @Override
     public double alpha() {

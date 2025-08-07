@@ -13,8 +13,8 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import dev.deitylamb.fern.common.Easings;
-import dev.deitylamb.fern.flows.FocusFlow;
-import dev.deitylamb.fern.transitions.Transitionable;
+import dev.deitylamb.fern.flows.Flow;
+import dev.deitylamb.fern.tracks.FocusTrack;
 
 public class Focus {
 
@@ -23,7 +23,7 @@ public class Focus {
   // time between frames
   private static int delta = 1000 / FPS;
 
-  private static final Transitionable<?> transition = Fern.transition(150)
+  private static final Flow<?> flow = Fern.flow(150)
       .ease(Easings::easeOutCubic);
 
   public static void main(String[] args) {
@@ -35,7 +35,7 @@ public class Focus {
 
   public static JFrame createFrame() {
 
-    FocusFlow<?> focus = Fern.focus(transition);
+    FocusTrack<?> focus = Fern.focus(flow);
 
     JFrame frame = new JFrame("fern");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

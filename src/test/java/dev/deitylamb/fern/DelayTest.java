@@ -2,13 +2,13 @@ package dev.deitylamb.fern;
 
 import org.junit.jupiter.api.Test;
 
-import dev.deitylamb.fern.transitions.Transitionable;
+import dev.deitylamb.fern.flows.Flow;
 
 class DelayTest {
 
   @Test
   void delayShouldWork() {
-    Transitionable<?> transition = Fern.transition(10).delay(5);
+    Flow<?> transition = Fern.flow(10).delay(5);
     transition.play();
 
     TestUtils.iter(transition, 5).shouldBe(0);
@@ -20,7 +20,7 @@ class DelayTest {
 
   @Test
   void delayShouldWorkBeforeCircular() {
-    Transitionable<?> transition = Fern.transition(10).delay(5).circular();
+    Flow<?> transition = Fern.flow(10).delay(5).circular();
     transition.play();
 
     TestUtils.iter(transition, 5).shouldBe(0);
@@ -36,7 +36,7 @@ class DelayTest {
 
   @Test
   void delayShouldWorkAfterCircular() {
-    Transitionable<?> transition = Fern.transition(10).circular().delay(5);
+    Flow<?> transition = Fern.flow(10).circular().delay(5);
     transition.play();
 
     TestUtils.iter(transition, 5).shouldBe(0);
@@ -50,7 +50,7 @@ class DelayTest {
 
   @Test
   void delayShouldWorkBeforeCircularAndLoop() {
-    Transitionable<?> transition = Fern.transition(10).delay(5).circular().loop();
+    Flow<?> transition = Fern.flow(10).delay(5).circular().loop();
     transition.play();
 
     for (int i = 0; i < 10; i++) {
@@ -68,7 +68,7 @@ class DelayTest {
 
   @Test
   void delayShouldWorkAfterCircularAndLoop() {
-    Transitionable<?> transition = Fern.transition(10).circular().loop().delay(5);
+    Flow<?> transition = Fern.flow(10).circular().loop().delay(5);
     transition.play();
 
     TestUtils.iter(transition, 5).shouldBe(0);
@@ -85,7 +85,7 @@ class DelayTest {
 
   @Test
   void delayShouldWorkAfterCircularAndBeforeLoop() {
-    Transitionable<?> transition = Fern.transition(10).circular().delay(5).loop();
+    Flow<?> transition = Fern.flow(10).circular().delay(5).loop();
     transition.play();
 
     for (int i = 0; i < 10; i++) {
@@ -101,7 +101,7 @@ class DelayTest {
 
   @Test
   void delayShouldWorkWithReset() {
-    Transitionable<?> transition = Fern.transition(10).delay(5);
+    Flow<?> transition = Fern.flow(10).delay(5);
 
     transition.play();
 
@@ -116,7 +116,7 @@ class DelayTest {
 
   @Test
   void delayShouldWorkWithPause() {
-    Transitionable<?> transition = Fern.transition(10).delay(5);
+    Flow<?> transition = Fern.flow(10).delay(5);
 
     transition.play();
 

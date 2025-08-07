@@ -5,22 +5,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import dev.deitylamb.fern.transitions.Transitionable;
+import dev.deitylamb.fern.flows.Flow;
 
 public class TestUtils {
-  public static IterShouldBe iter(Transitionable<?> transition, int ticks) {
+  public static IterShouldBe iter(Flow<?> flow, int ticks) {
     return (Function<Integer, Double> should) -> {
       for (int t = 0; t < ticks; t++) {
-        assertEquals(transition.alpha(), should.apply(t), 0.01d);
-        transition.tick(1.0d);
+        assertEquals(flow.alpha(), should.apply(t), 0.01d);
+        flow.tick(1.0d);
       }
     };
-  }
-
-  public static void iter(Flowable<?> transition, int ticks) {
-    for (int t = 0; t < ticks; t++) {
-      transition.tick(1.0d);
-    }
   }
 
   @FunctionalInterface

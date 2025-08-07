@@ -1,18 +1,18 @@
-package dev.deitylamb.fern.transitions;
+package dev.deitylamb.fern.flows;
 
 import java.util.function.Function;
 
 import dev.deitylamb.fern.Fern;
-import dev.deitylamb.fern.Flowable;
+import dev.deitylamb.fern.Tickable;
 import dev.deitylamb.fern.common.Color;
 import dev.deitylamb.fern.common.Displayable;
 import dev.deitylamb.fern.common.Easings.Ease;
 import dev.deitylamb.fern.common.FernUtils;
-import dev.deitylamb.fern.transitions.decorators.DelayTransition;
-import dev.deitylamb.fern.transitions.decorators.EaseTransition;
-import dev.deitylamb.fern.transitions.decorators.RepeatTransition;
+import dev.deitylamb.fern.flows.decorators.DelayFlow;
+import dev.deitylamb.fern.flows.decorators.EaseFlow;
+import dev.deitylamb.fern.flows.decorators.RepeatFlow;
 
-public interface Transitionable<T> extends Flowable<T>, Displayable {
+public interface Flow<T> extends Tickable<T>, Displayable {
 
     double alpha();
 
@@ -55,37 +55,37 @@ public interface Transitionable<T> extends Flowable<T>, Displayable {
         this.reset();
     }
 
-    Transitionable<T> clone();
+    Flow<T> clone();
 
-    Transitionable<T> then(Transitionable<T> transition);
+    Flow<T> then(Flow<T> flow);
 
-    default Transitionable<T> then(Function<Function<Double, Transitionable<T>>, Transitionable<T>> factory) {
-        return this.then(factory.apply(duration -> Fern.transition(duration)));
+    default Flow<T> then(Function<Function<Double, Flow<T>>, Flow<T>> factory) {
+        return this.then(factory.apply(duration -> Fern.flow(duration)));
     }
 
-    Transitionable<T> speed(double speed);
+    Flow<T> speed(double speed);
 
-    default Transitionable<T> ease(Ease ease) {
-        return new EaseTransition<>(this.clone(), ease);
+    default Flow<T> ease(Ease ease) {
+        return new EaseFlow<>(this.clone(), ease);
     };
 
-    default Transitionable<T> reverse() {
+    default Flow<T> reverse() {
         return this.ease(alpha -> 1d - alpha);
     };
 
-    default Transitionable<T> delay(double delay) {
-        return new DelayTransition<>(this.clone(), delay);
+    default Flow<T> delay(double delay) {
+        return new DelayFlow<>(this.clone(), delay);
     };
 
-    default RepeatTransition<T> repeat(int times) {
-        return new RepeatTransition<>(this, times);
+    default RepeatFlow<T> repeat(int times) {
+        return new RepeatFlow<>(this, times);
     }
 
-    default RepeatTransition<T> loop() {
-        return new RepeatTransition<>(this, -1);
+    default RepeatFlow<T> loop() {
+        return new RepeatFlow<>(this, -1);
     }
 
-    default Transitionable<T> circular() {
+    default Flow<T> circular() {
         return this.then(this.reverse());
     }
 

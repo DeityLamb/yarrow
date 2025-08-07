@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import dev.deitylamb.fern.common.Easings;
-import dev.deitylamb.fern.transitions.Transitionable;
+import dev.deitylamb.fern.flows.Flow;
 
 public class FadeInOut {
 
@@ -17,6 +17,12 @@ public class FadeInOut {
   private static int FPS = 60;
   // time between frames
   private static int delta = 1000 / FPS;
+
+  private static final Flow<?> flow = Fern.flow(2000)
+      .delay(100)
+      .ease(Easings::easeOutCubic)
+      .circular()
+      .loop();
 
   public static void main(String[] args) {
 
@@ -27,13 +33,7 @@ public class FadeInOut {
 
   public static JFrame createFrame() {
 
-    Transitionable<?> transition = Fern.transition(2000)
-        .delay(100)
-        .ease(Easings::easeOutCubic)
-        .circular()
-        .loop();
-
-    transition.play();
+    flow.play();
 
     JFrame frame = new JFrame("fern");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -46,10 +46,10 @@ public class FadeInOut {
       protected void paintComponent(Graphics gui) {
         super.paintComponent(gui);
 
-        transition.tick(delta);
+        flow.tick(delta);
 
         Color color = new Color(80, 0, 255,
-            (int) (transition.alpha() * 255D));
+            (int) (flow.alpha() * 255D));
 
         gui.setColor(color);
         gui.fillRect(0, 0, getWidth(), getHeight());

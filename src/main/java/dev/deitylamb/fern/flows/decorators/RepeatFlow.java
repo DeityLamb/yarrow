@@ -1,15 +1,15 @@
-package dev.deitylamb.fern.transitions.decorators;
+package dev.deitylamb.fern.flows.decorators;
 
 import dev.deitylamb.fern.common.Displayable;
-import dev.deitylamb.fern.transitions.Transitionable;
+import dev.deitylamb.fern.flows.Flow;
 
-public class RepeatTransition<T> extends TransitionDecorator<T> {
+public class RepeatFlow<T> extends FlowDecorator<T> {
 
     private final int times;
     private int repeats = 1;
 
-    public RepeatTransition(Transitionable<T> transition, int times) {
-        super(transition);
+    public RepeatFlow(Flow<T> inner, int times) {
+        super(inner);
         this.times = Math.max(-1, times);
     }
 
@@ -62,18 +62,18 @@ public class RepeatTransition<T> extends TransitionDecorator<T> {
     }
 
     @Override
-    public RepeatTransition<T> speed(double speed) {
-        return new RepeatTransition<>(inner.speed(speed), times);
+    public RepeatFlow<T> speed(double speed) {
+        return new RepeatFlow<>(inner.speed(speed), times);
     }
 
     @Override
-    public RepeatTransition<T> then(Transitionable<T> transition) {
-        return new RepeatTransition<>(inner.then(transition), times);
+    public RepeatFlow<T> then(Flow<T> flow) {
+        return new RepeatFlow<>(inner.then(flow), times);
     }
 
     @Override
-    public RepeatTransition<T> clone() {
-        return new RepeatTransition<>(inner.clone(), times);
+    public RepeatFlow<T> clone() {
+        return new RepeatFlow<>(inner.clone(), times);
     }
 
     @Override
@@ -86,7 +86,7 @@ public class RepeatTransition<T> extends TransitionDecorator<T> {
 
         String tab = Displayable.indent(depth);
 
-        return "RepeatTransition {\n" +
+        return "RepeatFlow {\n" +
                 tab + Displayable.INDENT + "repeats=" + repeats + ",\n" +
                 tab + Displayable.INDENT + "times=" + times + ",\n" +
                 tab + Displayable.INDENT + "inner=" + inner.display(depth + 1) + "\n" +

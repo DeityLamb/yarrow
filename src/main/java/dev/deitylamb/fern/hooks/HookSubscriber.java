@@ -1,23 +1,58 @@
 package dev.deitylamb.fern.hooks;
 
+import dev.deitylamb.fern.flows.Flow;
+
 public interface HookSubscriber<T> {
 
   default void onPlay() {
   }
 
+  default void onPlay(Flow<T> flow) {
+  }
+
   default void onPause() {
   }
 
-  default void onTick(T graphics, double delta) {
+  default void onPause(Flow<T> flow) {
   }
 
-  default void onTick(double delta) {
+  default void onReset() {
   }
 
-  default void onProgress(T graphics, double progress) {
+  default void onReset(Flow<T> flow) {
   }
 
-  default void onProgress(double progress) {
+  default void onStop() {
+  }
+
+  default void onRestart() {
+  }
+
+  default void onComplete(T graphics, Flow<T> flow) {
+  }
+
+  default void onComplete(Flow<T> flow) {
+  }
+
+  default void onComplete() {
+  }
+
+  default void onTick(T graphics, Flow<T> flow) {
+  }
+
+  default void onTick(Flow<T> flow) {
+  }
+
+  default void onTick() {
+  }
+
+  default void onProgress(T graphics, Flow<T> flow) {
+  }
+
+  default void onProgress(Flow<T> flow) {
+  }
+
+  default void onProgress() {
   }
 
   @FunctionalInterface
@@ -50,27 +85,27 @@ public interface HookSubscriber<T> {
 
   @FunctionalInterface
   interface OnTick<T> {
-    void onTick(T graphics, double delta);
+    void onTick(T graphics, Flow<T> flow);
 
     default HookSubscriber<T> asHookable() {
       return new HookSubscriber<T>() {
         @Override
-        public void onTick(T graphics, double delta) {
-          OnTick.this.onTick(graphics, delta);
+        public void onTick(T graphics, Flow<T> flow) {
+          OnTick.this.onTick(graphics, flow);
         }
       };
     }
   }
 
   @FunctionalInterface
-  interface OnTickNoGui {
-    void onTick(double delta);
+  interface OnTickNoGui<T> {
+    void onTick(Flow<T> flow);
 
-    default <T> HookSubscriber<T> asHookable() {
+    default HookSubscriber<T> asHookable() {
       return new HookSubscriber<T>() {
         @Override
-        public void onTick(double delta) {
-          OnTickNoGui.this.onTick(delta);
+        public void onTick(Flow<T> flow) {
+          OnTickNoGui.this.onTick(flow);
         }
       };
     }
@@ -78,27 +113,27 @@ public interface HookSubscriber<T> {
 
   @FunctionalInterface
   interface OnProgress<T> {
-    void onProgress(T graphics, double progress);
+    void onProgress(T graphics, Flow<T> flow);
 
     default HookSubscriber<T> asHookable() {
       return new HookSubscriber<T>() {
         @Override
-        public void onProgress(T graphics, double progress) {
-          OnProgress.this.onProgress(graphics, progress);
+        public void onProgress(T graphics, Flow<T> flow) {
+          OnProgress.this.onProgress(graphics, flow);
         }
       };
     }
   }
 
   @FunctionalInterface
-  interface OnProgressNoGui {
-    void onProgress(double progress);
+  interface OnProgressNoGui<T> {
+    void onProgress(Flow<T> flow);
 
-    default <T> HookSubscriber<T> asHookable() {
+    default HookSubscriber<T> asHookable() {
       return new HookSubscriber<T>() {
         @Override
-        public void onProgress(double progress) {
-          OnProgressNoGui.this.onProgress(progress);
+        public void onProgress(Flow<T> flow) {
+          OnProgressNoGui.this.onProgress(flow);
         }
       };
     }

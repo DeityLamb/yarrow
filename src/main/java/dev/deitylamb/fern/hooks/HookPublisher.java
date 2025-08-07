@@ -3,6 +3,8 @@ package dev.deitylamb.fern.hooks;
 import java.util.ArrayList;
 import java.util.List;
 
+import dev.deitylamb.fern.flows.Flow;
+
 public class HookPublisher<T> {
 
   private final List<HookSubscriber<T>> subscribers = new ArrayList<>();
@@ -34,13 +36,30 @@ public class HookPublisher<T> {
     this.subscribers.forEach(HookSubscriber::onPause);
   }
 
-  public void onProgress(T graphics, double progress) {
-    this.subscribers.forEach(h -> h.onProgress(graphics, progress));
-    this.subscribers.forEach(h -> h.onProgress(progress));
+  public void onReset() {
+    this.subscribers.forEach(HookSubscriber::onReset);
   }
 
-  public void onTick(T graphics, double delta) {
-    this.subscribers.forEach(h -> h.onTick(graphics, delta));
-    this.subscribers.forEach(h -> h.onTick(delta));
+  public void onStop() {
+    this.subscribers.forEach(HookSubscriber::onStop);
+  }
+
+  public void onRestart() {
+    this.subscribers.forEach(HookSubscriber::onRestart);
+  }
+
+  public void onComplete(T graphics, Flow<T> flow) {
+    this.subscribers.forEach(h -> h.onComplete(graphics, flow));
+    this.subscribers.forEach(h -> h.onComplete(flow));
+  }
+
+  public void onProgress(T graphics, Flow<T> flow) {
+    this.subscribers.forEach(h -> h.onProgress(graphics, flow));
+    this.subscribers.forEach(h -> h.onProgress(flow));
+  }
+
+  public void onTick(T graphics, Flow<T> flow) {
+    this.subscribers.forEach(h -> h.onTick(graphics, flow));
+    this.subscribers.forEach(h -> h.onTick(flow));
   }
 }

@@ -1,6 +1,6 @@
 package dev.deitylamb.fern;
 
-public interface Flowable<T> {
+public interface Tickable<T> {
 
     void tick(T graphics, double delta);
 
@@ -8,6 +8,6 @@ public interface Flowable<T> {
         this.tick(null, delta);
     }
 
-    Flowable<T> clone();
+    Tickable<T> clone();
 
 }

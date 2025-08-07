@@ -1,4 +1,4 @@
-package dev.deitylamb.fern.transitions;
+package dev.deitylamb.fern.flows;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,18 +9,18 @@ import java.util.stream.Collectors;
 import dev.deitylamb.fern.common.Displayable;
 import dev.deitylamb.fern.common.Easings.Ease;
 
-public class SequenceTransition<T> implements Transitionable<T> {
-    private List<Transitionable<T>> edges;
-    private Optional<Transitionable<T>> active;
+public class SequenceFlow<T> implements Flow<T> {
+    private List<Flow<T>> edges;
+    private Optional<Flow<T>> active;
 
-    public SequenceTransition(List<Transitionable<T>> edges) {
+    public SequenceFlow(List<Flow<T>> edges) {
         this.edges = edges;
         this.active = first();
     }
 
     @Override
     public double duration() {
-        return edges.stream().mapToDouble(Transitionable::duration).sum();
+        return edges.stream().mapToDouble(Flow::duration).sum();
     }
 
     @Override
@@ -70,36 +70,36 @@ public class SequenceTransition<T> implements Transitionable<T> {
     }
 
     @Override
-    public SequenceTransition<T> then(Transitionable<T> transition) {
-        List<Transitionable<T>> edges = new ArrayList<>(
-                this.edges.stream().map(Transitionable::clone).collect(Collectors.toList()));
+    public SequenceFlow<T> then(Flow<T> flow) {
+        List<Flow<T>> edges = new ArrayList<>(
+                this.edges.stream().map(Flow::clone).collect(Collectors.toList()));
 
-        edges.add(transition.clone());
+        edges.add(flow.clone());
 
-        return new SequenceTransition<>(edges);
+        return new SequenceFlow<>(edges);
     }
 
     @Override
-    public SequenceTransition<T> speed(double speed) {
+    public SequenceFlow<T> speed(double speed) {
         return map(v -> v.speed(speed));
     }
 
     @Override
-    public SequenceTransition<T> ease(Ease ease) {
+    public SequenceFlow<T> ease(Ease ease) {
         return map(v -> v.ease(ease));
     }
 
     @Override
-    public SequenceTransition<T> clone() {
-        return map(Transitionable::clone);
+    public SequenceFlow<T> clone() {
+        return map(Flow::clone);
     }
 
-    private SequenceTransition<T> map(Function<Transitionable<T>, Transitionable<T>> mapper) {
-        return new SequenceTransition<>(new ArrayList<>(
+    private SequenceFlow<T> map(Function<Flow<T>, Flow<T>> mapper) {
+        return new SequenceFlow<>(new ArrayList<>(
                 this.edges.stream().map(mapper).collect(Collectors.toList())));
     }
 
-    private Optional<Transitionable<T>> next() {
+    private Optional<Flow<T>> next() {
         if (!active.isPresent()) {
             return Optional.empty();
         }
@@ -113,7 +113,7 @@ public class SequenceTransition<T> implements Transitionable<T> {
         return Optional.of(edges.get(currentIdx + 1));
     }
 
-    private Optional<Transitionable<T>> first() {
+    private Optional<Flow<T>> first() {
         if (edges.isEmpty()) {
             return Optional.empty();
         }
@@ -126,7 +126,7 @@ public class SequenceTransition<T> implements Transitionable<T> {
 
         String indents = Displayable.indent(depth);
 
-        return "SequenceTransition {\n" +
+        return "SequenceFlow {\n" +
                 indents + Displayable.INDENT + "edges=[\n" +
 
                 indents + Displayable.indent(2) + edges

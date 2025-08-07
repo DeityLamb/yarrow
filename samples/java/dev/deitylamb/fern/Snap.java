@@ -13,15 +13,15 @@ import javax.swing.Timer;
 import dev.deitylamb.fern.common.Color;
 import dev.deitylamb.fern.common.Easings;
 import dev.deitylamb.fern.common.Easings.Ease;
-import dev.deitylamb.fern.transitions.Transitionable;
+import dev.deitylamb.fern.flows.Flow;
 
 public class Snap extends JPanel {
 
   private final Ease easing = Easings.springEase(1.3, 350, 30, 0.5);
   private final int PADDING = 50;
 
-  private final Transitionable<Graphics> transition = Fern
-      .<Graphics>transition(2000)
+  private final Flow<Graphics> flow = Fern
+      .<Graphics>flow(2000)
       .ease(easing)
       .circular()
       .speed(2)
@@ -34,7 +34,7 @@ public class Snap extends JPanel {
     setBackground(new java.awt.Color(0xff151515));
     setOpaque(true);
 
-    transition.play();
+    flow.play();
 
   }
 
@@ -47,14 +47,14 @@ public class Snap extends JPanel {
 
     drawTrack((Graphics2D) gui);
 
-    transition.tick(gui, 16);
+    flow.tick(gui, 16);
 
     int size = 50;
 
-    int x = (int) transition.lerp(PADDING, getWidth() - size - PADDING);
+    int x = (int) flow.lerp(PADDING, getWidth() - size - PADDING);
     int y = getHeight() / 2 - size / 2;
 
-    Color color = transition.lerp(Color.RED.withBlue(80), Color.BLUE.withRed(80));
+    Color color = flow.lerp(Color.RED.withBlue(80), Color.BLUE.withRed(80));
     gui.setColor(new java.awt.Color(color.argb(), true));
     gui.fillRoundRect(x, y, size, size, 12, 12);
   }

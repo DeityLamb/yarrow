@@ -1,18 +1,18 @@
-package dev.deitylamb.fern.transitions.decorators;
+package dev.deitylamb.fern.flows.decorators;
 
 import java.util.Arrays;
 import java.util.function.Function;
 
 import dev.deitylamb.fern.common.Displayable;
 import dev.deitylamb.fern.common.Easings.Ease;
-import dev.deitylamb.fern.transitions.SequenceTransition;
-import dev.deitylamb.fern.transitions.Transitionable;
+import dev.deitylamb.fern.flows.Flow;
+import dev.deitylamb.fern.flows.SequenceFlow;
 
-public class EaseTransition<T> extends TransitionDecorator<T> {
+public class EaseFlow<T> extends FlowDecorator<T> {
 
   private final Ease ease;
 
-  public EaseTransition(Transitionable<T> inner, Ease ease) {
+  public EaseFlow(Flow<T> inner, Ease ease) {
     super(inner);
     this.ease = ease;
   }
@@ -28,18 +28,18 @@ public class EaseTransition<T> extends TransitionDecorator<T> {
   }
 
   @Override
-  public TransitionDecorator<T> clone() {
-    return new EaseTransition<>(inner.clone(), ease);
+  public FlowDecorator<T> clone() {
+    return new EaseFlow<>(inner.clone(), ease);
   }
 
   @Override
-  public Transitionable<T> speed(double speed) {
-    return new EaseTransition<>(inner.speed(speed), ease);
+  public Flow<T> speed(double speed) {
+    return new EaseFlow<>(inner.speed(speed), ease);
   }
 
   @Override
-  public Transitionable<T> then(Transitionable<T> transition) {
-    return new SequenceTransition<>(Arrays.asList(this.clone(), transition.clone()));
+  public Flow<T> then(Flow<T> flow) {
+    return new SequenceFlow<>(Arrays.asList(this.clone(), flow.clone()));
   }
 
   @Override
@@ -51,7 +51,7 @@ public class EaseTransition<T> extends TransitionDecorator<T> {
   public String display(int depth) {
     String tab = Displayable.indent(depth);
 
-    return "EaseTransition {\n" +
+    return "EaseFlow {\n" +
         tab + Displayable.INDENT + "inner=" + inner.display(depth + 1) + "\n" +
         tab + "}";
   }

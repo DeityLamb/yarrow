@@ -1,18 +1,18 @@
-package dev.deitylamb.fern.transitions.decorators;
+package dev.deitylamb.fern.flows.decorators;
 
 import java.util.Arrays;
 
 import dev.deitylamb.fern.common.Displayable;
 import dev.deitylamb.fern.common.FernUtils;
-import dev.deitylamb.fern.transitions.SequenceTransition;
-import dev.deitylamb.fern.transitions.Transitionable;
+import dev.deitylamb.fern.flows.Flow;
+import dev.deitylamb.fern.flows.SequenceFlow;
 
-public class DelayTransition<T> extends TransitionDecorator<T> {
+public class DelayFlow<T> extends FlowDecorator<T> {
     public final double delay;
     private double elapsed = 0;
 
-    public DelayTransition(Transitionable<T> transition, double delay) {
-        super(transition);
+    public DelayFlow(Flow<T> inner, double delay) {
+        super(inner);
         this.delay = delay;
     }
 
@@ -51,18 +51,18 @@ public class DelayTransition<T> extends TransitionDecorator<T> {
     }
 
     @Override
-    public DelayTransition<T> speed(double speed) {
-        return new DelayTransition<>(inner.speed(speed), delay / speed);
+    public DelayFlow<T> speed(double speed) {
+        return new DelayFlow<>(inner.speed(speed), delay / speed);
     }
 
     @Override
-    public SequenceTransition<T> then(Transitionable<T> transition) {
-        return new SequenceTransition<>(Arrays.asList(this.clone(), transition.clone()));
+    public SequenceFlow<T> then(Flow<T> flow) {
+        return new SequenceFlow<>(Arrays.asList(this.clone(), flow.clone()));
     }
 
     @Override
-    public DelayTransition<T> clone() {
-        return new DelayTransition<>(inner.clone(), delay);
+    public DelayFlow<T> clone() {
+        return new DelayFlow<>(inner.clone(), delay);
     }
 
     @Override
@@ -75,7 +75,7 @@ public class DelayTransition<T> extends TransitionDecorator<T> {
 
         String tab = Displayable.indent(depth);
 
-        return "DelayTransition {\n" +
+        return "DelayFlow {\n" +
                 tab + Displayable.INDENT + "elapsed=" + elapsed + ",\n" +
                 tab + Displayable.INDENT + "delay=" + delay + ",\n" +
                 tab + Displayable.INDENT + "inner=" + inner.display(depth + 1) + "\n" +

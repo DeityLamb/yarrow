@@ -1,21 +1,21 @@
-package dev.deitylamb.fern.flows;
+package dev.deitylamb.fern.tracks;
 
 import java.util.Optional;
 
-import dev.deitylamb.fern.Flowable;
-import dev.deitylamb.fern.transitions.Transitionable;
+import dev.deitylamb.fern.Tickable;
+import dev.deitylamb.fern.flows.Flow;
 
-public class FocusFlow<T> implements Flowable<T> {
-    private final Transitionable<T> focus;
-    private final Transitionable<T> blur;
+public class FocusTrack<T> implements Tickable<T> {
+    private final Flow<T> focus;
+    private final Flow<T> blur;
     private boolean isFocused = false;
 
-    public FocusFlow(Transitionable<T> focus, Transitionable<T> blur) {
+    public FocusTrack(Flow<T> focus, Flow<T> blur) {
         this.focus = focus;
         this.blur = blur;
     }
 
-    public Optional<Transitionable<T>> active() {
+    public Optional<Flow<T>> active() {
         if (isFocused) {
             return Optional.of(focus);
         }
@@ -48,7 +48,7 @@ public class FocusFlow<T> implements Flowable<T> {
     }
 
     @Override
-    public FocusFlow<T> clone() {
-        return new FocusFlow<>(this.focus.clone(), this.blur.clone());
+    public FocusTrack<T> clone() {
+        return new FocusTrack<>(this.focus.clone(), this.blur.clone());
     }
 }

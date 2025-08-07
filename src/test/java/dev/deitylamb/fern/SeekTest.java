@@ -3,95 +3,95 @@ package dev.deitylamb.fern;
 import org.junit.jupiter.api.Test;
 
 import dev.deitylamb.fern.common.Color;
-import dev.deitylamb.fern.transitions.Transitionable;
-import dev.deitylamb.fern.transitions.decorators.RepeatTransition;
+import dev.deitylamb.fern.flows.Flow;
+import dev.deitylamb.fern.flows.decorators.RepeatFlow;
 
 class SeekTest {
     @Test
     void seekShouldWork() {
-        Transitionable<?> transition = Fern.transition(10);
-        transition.play();
+        Flow<?> flow = Fern.flow(10);
+        flow.play();
 
-        transition.seek(5);
-        TestUtils.iter(transition, 5).shouldBe(t -> (5 + t) / transition.duration());
+        flow.seek(5);
+        TestUtils.iter(flow, 5).shouldBe(t -> (5 + t) / flow.duration());
 
-        assert transition.isPaused();
+        assert flow.isPaused();
 
-        transition.restart();
+        flow.restart();
 
-        TestUtils.iter(transition, 9).shouldBe(t -> t / 10d);
+        TestUtils.iter(flow, 9).shouldBe(t -> t / 10d);
 
-        assert transition.isRunning();
+        assert flow.isRunning();
 
     }
 
     @Test
     void seekShouldWorkInSequence() {
-        Transitionable<?> transition = Fern.transition(10).circular();
-        transition.play();
+        Flow<?> flow = Fern.flow(10).circular();
+        flow.play();
 
-        transition.seek(10);
+        flow.seek(10);
 
-        assert transition.isRunning();
+        assert flow.isRunning();
 
-        TestUtils.iter(transition, 10).shouldBe(t -> 1d - (t / 10d));
+        TestUtils.iter(flow, 10).shouldBe(t -> 1d - (t / 10d));
 
-        assert transition.isPaused();
+        assert flow.isPaused();
     }
 
     @Test
     void seekShouldStop() {
-        Transitionable<?> transition = Fern.transition(10);
-        transition.play();
+        Flow<?> flow = Fern.flow(10);
+        flow.play();
 
-        transition.seek(10);
+        flow.seek(10);
 
-        assert transition.isPaused();
+        assert flow.isPaused();
     }
 
     @Test
     void seekShouldWorkWithDelay() {
-        Transitionable<?> transition = Fern.transition(10).delay(5);
-        transition.play();
+        Flow<?> flow = Fern.flow(10).delay(5);
+        flow.play();
 
-        transition.seek(3);
+        flow.seek(3);
 
-        assert transition.isRunning();
+        assert flow.isRunning();
 
-        TestUtils.iter(transition, 2).shouldBe(0);
-        TestUtils.iter(transition, 10).shouldBe(t -> (t) / 10d);
+        TestUtils.iter(flow, 2).shouldBe(0);
+        TestUtils.iter(flow, 10).shouldBe(t -> (t) / 10d);
 
-        assert transition.isPaused();
+        assert flow.isPaused();
 
-        transition.restart();
+        flow.restart();
 
-        transition.seek(7);
-        assert transition.isRunning();
+        flow.seek(7);
+        assert flow.isRunning();
 
-        TestUtils.iter(transition, 8).shouldBe(t -> (2 + t) / 10d);
-        assert transition.isPaused();
+        TestUtils.iter(flow, 8).shouldBe(t -> (2 + t) / 10d);
+        assert flow.isPaused();
 
-        transition.restart();
+        flow.restart();
 
-        transition.seek(transition.duration());
+        flow.seek(flow.duration());
 
-        assert transition.isPaused();
+        assert flow.isPaused();
     }
 
     @Test
     void seekShouldWorkWithRepeat() {
-        RepeatTransition<?> transition = Fern.transition(10).repeat(5);
-        transition.play();
+        RepeatFlow<?> flow = Fern.flow(10).repeat(5);
+        flow.play();
 
         System.out.println(Color.fromRGBA("#010106Fa"));
 
-        transition.seek(32);
+        flow.seek(32);
 
-        System.out.println(transition);
+        System.out.println(flow);
 
-        assert transition.repeats() == 3;
+        assert flow.repeats() == 3;
 
-        assert transition.alpha() == 0.2;
+        assert flow.alpha() == 0.2;
 
     }
 

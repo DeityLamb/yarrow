@@ -1,29 +1,26 @@
-package dev.deitylamb.fern.transitions;
+package dev.deitylamb.fern.flows;
 
 import java.util.Arrays;
 
 import dev.deitylamb.fern.common.Displayable;
 import dev.deitylamb.fern.common.FernUtils;
 
-public class Transition<T> implements Transitionable<T> {
+public class BasicFlow<T> implements Flow<T> {
 
-    private boolean running = false;
-    private double elapsed = 0;
     private final double duration;
+    private double elapsed = 0;
+    private boolean running = false;
 
-    public Transition(double duration) {
+    public BasicFlow(double duration) {
         this.duration = duration;
-
     }
 
     public double duration() {
         return duration;
-
     }
 
     public double alpha() {
         return FernUtils.clamp(elapsed / duration, 0d, 1d);
-
     }
 
     @Override
@@ -35,12 +32,12 @@ public class Transition<T> implements Transitionable<T> {
 
         this.elapsed = FernUtils.clamp(elapsed + delta, 0, duration);
 
-        if (isEnded()) {
+        if (isCompleted()) {
             this.pause();
         }
     }
 
-    public boolean isEnded() {
+    public boolean isCompleted() {
         return alpha() == 1d;
     }
 
@@ -65,13 +62,13 @@ public class Transition<T> implements Transitionable<T> {
     }
 
     @Override
-    public Transitionable<T> speed(double speed) {
-        return new Transition<>(Math.max(0, duration / speed));
+    public Flow<T> speed(double speed) {
+        return new BasicFlow<>(Math.max(0, duration / speed));
     }
 
     @Override
-    public Transitionable<T> then(Transitionable<T> transition) {
-        return new SequenceTransition<>(Arrays.asList(this.clone(), transition.clone()));
+    public Flow<T> then(Flow<T> flow) {
+        return new SequenceFlow<>(Arrays.asList(this.clone(), flow.clone()));
     }
 
     @Override
@@ -79,7 +76,7 @@ public class Transition<T> implements Transitionable<T> {
 
         String tab = Displayable.indent(depth);
 
-        return "Transition {\n" +
+        return "BasicFlow {\n" +
                 tab + Displayable.INDENT + "alpha=" + alpha() + ",\n" +
                 tab + Displayable.INDENT + "running=" + running + ",\n" +
                 tab + Displayable.INDENT + "elapsed=" + elapsed + ",\n" +
@@ -93,8 +90,8 @@ public class Transition<T> implements Transitionable<T> {
     }
 
     @Override
-    public Transition<T> clone() {
-        return new Transition<>(duration);
+    public BasicFlow<T> clone() {
+        return new BasicFlow<>(duration);
     }
 
 }
