@@ -1,9 +1,7 @@
-package dev.deitylamb.fern.flows;
+package dev.deitylamb.fern;
 
 import java.util.function.Function;
 
-import dev.deitylamb.fern.Fern;
-import dev.deitylamb.fern.Tickable;
 import dev.deitylamb.fern.common.Color;
 import dev.deitylamb.fern.common.Displayable;
 import dev.deitylamb.fern.common.Easings.Ease;

@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import dev.deitylamb.fern.Flow;
 import dev.deitylamb.fern.common.Displayable;
 import dev.deitylamb.fern.common.Easings.Ease;
 

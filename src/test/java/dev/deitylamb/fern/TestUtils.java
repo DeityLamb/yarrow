@@ -5,8 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import dev.deitylamb.fern.flows.Flow;
-
 public class TestUtils {
   public static IterShouldBe iter(Flow<?> flow, int ticks) {
     return (Function<Integer, Double> should) -> {

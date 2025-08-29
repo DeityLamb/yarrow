@@ -1,19 +1,76 @@
 # Control flow
 
-Transitions provide several methods to control animation flow and tween state
+`Flow` provides several methods to control animation and tween state   
 
-| Methods                  | Description                                                                       |
-| ------------------------ | --------------------------------------------------------------------------------- |
-| `.play()`                | Play the transition                                                               |
-| `.pause()`               | Pause the transition                                                              |
-| `.reset()`               | Reset the transition state to the beginning                                       |
-| `.seek(double duration)` | Jump to a specific point in time                                                  |
-| `.restart()`             | Reset the state and play the transition <br/>Alias for `.reset()` and `.play()`   |
-| `.stop()`                | Reset the state and pause the transition <br/>Alias for `.reset()` and `.pause()` |
-| `.alpha()`               | Get the current progress (`0.0d` to `1.0d`)                                       |
-| `isRunning()`            | Check if the transition is running                                                |
-| `isPaused()`             | Check if the transition is paused                                                 |
+| Methods                  | Description                                                                 |
+|--------------------------|-----------------------------------------------------------------------------|
+| `.play()`                | Play the flow                                                               |
+| `.pause()`               | Pause the flow                                                              |
+| `.reset()`               | Reset the flow state to the beginning                                       |
+| `.seek(double duration)` | Jump to a specific point in time                                            |
+| `.restart()`             | Reset the state and play the flow <br/>Alias for `.reset()` and `.play()`   |
+| `.stop()`                | Reset the state and pause the flow <br/>Alias for `.reset()` and `.pause()` |
+| `.alpha()`               | Get the current progress (`0.0d` to `1.0d`)                                 |
+| `isRunning()`            | Check if the flow is running                                                |
+| `isPaused()`             | Check if the flow is paused                                                 |
 
+You can create a simple flow like this
+
+```java
+import dev.deitylamb.fern.Fern;
+import dev.deitylamb.fern.Flow;
+
+// Graphics is any type of object that you want to use in hooks
+private final Flow<Graphics> flow = Fern
+  .<Graphics>flow(100)
+  // this hook will be called every time the tick method is called
+  .onTick((graphics, flow) -> {
+    double opacity = flow.alpha();
+    graphics.setColor(1, 1, 1, opacity);
+  });
+
+// Start transition whenever you want
+flow.play(); 
+
+public void whateverRender(Graphics gui, double delta) {
+  // Tick will update the alpha of the flow
+  flow.tick(gui, 10); // alpha() - 0.1
+  flow.tick(gui, 50); // alpha() - 0.6
+
+  // we can pause it
+  flow.pause();
+
+   // so progress stops at 0.6
+  flow.tick(gui, 100); // alpha() - 0.6
+  flow.tick(gui, 100); // alpha() - 0.6
+
+  // resume it
+  flow.play();
+
+  flow.tick(gui, 10); // alpha() - 0.7
+
+  // or restart it
+  flow.restart();
+
+  flow.tick(gui, 10); // alpha() - 0.1
+}
+
+```
+
+Or without any Graphics
+```java
+import dev.deitylamb.fern.Fern;
+import dev.deitylamb.fern.Flow;
+
+private final Flow<Void> flow = Fern.flow(100);
+flow.play(); 
+
+flow.tick(10);
+flow.tick(50);
+
+flow.alpha(); // 0.6
+
+```
 ## Simple example with Swing
 
 ```java
@@ -21,21 +78,21 @@ Transitions provide several methods to control animation flow and tween state
 static final int FPS = 60;
 // Time between frames
 static final int DELTA = 1000 / FPS;
-// Create simple ping-pong transition
-Transitionable<?> transition = Fern.transition(2000); // [!code highlight]
-transition.play(); // [!code highlight]
+
+static final Flow<Void> flow = Fern.flow(2000); // [!code highlight]
 
 JFrame frame = new JFrame("fern");
 frame.setSize(512, 128);
 
+flow.play(); // [!code highlight]
 frame.add(new JPanel() {
   @Override
   protected void paintComponent(Graphics gui) {
     super.paintComponent(gui);
 
-    transition.tick(DELTA); // [!code highlight]
+    flow.tick(DELTA); // [!code highlight]
     // Get 255 alpha value for the current progress (0.0 to 1.0) // [!code highlight]
-    int transparency = (int) (transition.alpha() * 255d); // [!code highlight]
+    int transparency = (int) (flow.alpha() * 255d); // [!code highlight]
 
     Color color = new Color(80, 0, 255, transparency);
 
@@ -59,7 +116,7 @@ new Timer(DELTA, a -> frame.repaint()).start();
 In this section, we generate a number from 0 to 255 based on the alpha progress \[0, 1]
 
 ```java
-int transparency = (int) (transition.alpha() * 255d);
+int transparency = (int) (flow.alpha() * 255d);
 ```
 
 This looks a little clunky  
@@ -68,8 +125,8 @@ Fortunately, Fern provides a handy method to linearly interpolate between two va
 It's an alias for `FernUtils.lerp(alpha, from, to)`
 
 ```java
-int transparency = (int) (transition.alpha() * 255d); // [!code --]
-int transparency = transition.lerp(0, 255); // [!code ++]
+int transparency = (int) (flow.alpha() * 255d); // [!code --]
+int transparency = flow.lerp(0, 255); // [!code ++]
 ```
 
 ## Color interpolation
@@ -80,7 +137,7 @@ There is also a shortcut method to interpolate between two colors
 ```java
 import dev.deitylamb.fern.common.Color; // [!code ++]
 
-Color color = transition.lerp(Color.RED, Color.BLUE);
+Color color = flow.lerp(Color.RED, Color.BLUE);
 
 color.red();
 color.green();

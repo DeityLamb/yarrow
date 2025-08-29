@@ -2,8 +2,6 @@ package dev.deitylamb.fern;
 
 import org.junit.jupiter.api.Test;
 
-import dev.deitylamb.fern.flows.Flow;
-
 class DelayTest {
 
   @Test

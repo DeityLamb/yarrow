@@ -1,19 +1,19 @@
-# Special flow
+# Tracks
 
-Fern also provides a special flow called `FocusFlow`  
+Fern also provides a special "tracks", it's Flow wrappes for specific use cases.
 It allows you to create a focus-based animation, where the transition is only active when it is focused on.
 
 ## Usage
 ```java
 
-Flow<?> focus = Fern.focus(
+FocusTrack focus = Fern.focus(
     Fern.transition(200).ease(Easings::easeOutCubic)
 );
 
 protected void paintComponent(Graphics gui) {
   focus.tick(gui, delta);
-  focus.setFocus(/* mouse is hovering, for example */);
-  focus.active(); // Optional<Transitionable<?>>
+  focus.setFocus(/* mouse is hovering, notification popped up, etc */);
+  focus.active(); // Optional<Flow<Void>>
 
 }
 ```
@@ -21,7 +21,7 @@ protected void paintComponent(Graphics gui) {
 Blur transition will be reversed focus transition  
 But you can also provide it separately as second parameter
 ```java
-Flow<?> focus = Fern.focus(
+FocusTrack focus = Fern.focus(
     Fern.transition(200).ease(Easings::easeOutCubic),
     Fern.transition(100).reverse() // faster transition without easing
 );

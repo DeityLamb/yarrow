@@ -2,9 +2,9 @@ package dev.deitylamb.fern.flows.decorators;
 
 import java.util.Arrays;
 
+import dev.deitylamb.fern.Flow;
 import dev.deitylamb.fern.common.Displayable;
 import dev.deitylamb.fern.common.FernUtils;
-import dev.deitylamb.fern.flows.Flow;
 import dev.deitylamb.fern.flows.SequenceFlow;
 
 public class DelayFlow<T> extends FlowDecorator<T> {

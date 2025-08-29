@@ -2,15 +2,15 @@ package dev.deitylamb.fern.tracks;
 
 import java.util.Optional;
 
+import dev.deitylamb.fern.Flow;
 import dev.deitylamb.fern.Tickable;
-import dev.deitylamb.fern.flows.Flow;
 
-public class FocusTrack<T> implements Tickable<T> {
+public class Focus<T> implements Tickable<T> {
     private final Flow<T> focus;
     private final Flow<T> blur;
     private boolean isFocused = false;
 
-    public FocusTrack(Flow<T> focus, Flow<T> blur) {
+    public Focus(Flow<T> focus, Flow<T> blur) {
         this.focus = focus;
         this.blur = blur;
     }
@@ -48,7 +48,7 @@ public class FocusTrack<T> implements Tickable<T> {
     }
 
     @Override
-    public FocusTrack<T> clone() {
-        return new FocusTrack<>(this.focus.clone(), this.blur.clone());
+    public Focus<T> clone() {
+        return new Focus<>(this.focus.clone(), this.blur.clone());
     }
 }

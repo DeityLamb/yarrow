@@ -13,7 +13,6 @@ import javax.swing.Timer;
 import dev.deitylamb.fern.common.Color;
 import dev.deitylamb.fern.common.Easings;
 import dev.deitylamb.fern.common.Easings.Ease;
-import dev.deitylamb.fern.flows.Flow;
 
 public class Snap extends JPanel {
 

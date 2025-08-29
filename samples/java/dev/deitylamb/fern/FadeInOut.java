@@ -9,7 +9,6 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import dev.deitylamb.fern.common.Easings;
-import dev.deitylamb.fern.flows.Flow;
 
 public class FadeInOut {
 

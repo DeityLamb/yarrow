@@ -5,11 +5,11 @@ import java.util.stream.Collectors;
 
 import dev.deitylamb.fern.Tickable;
 
-public class ParallelTrack<T> implements Tickable<T> {
+public class Parallel<T> implements Tickable<T> {
 
     private final List<Tickable<T>> flows;
 
-    public ParallelTrack(List<Tickable<T>> flows) {
+    public Parallel(List<Tickable<T>> flows) {
         this.flows = flows;
     }
 
@@ -22,7 +22,7 @@ public class ParallelTrack<T> implements Tickable<T> {
     }
 
     @Override
-    public ParallelTrack<T> clone() {
-        return new ParallelTrack<>(this.flows.stream().map(Tickable::clone).collect(Collectors.toList()));
+    public Parallel<T> clone() {
+        return new Parallel<>(this.flows.stream().map(Tickable::clone).collect(Collectors.toList()));
     }
 }

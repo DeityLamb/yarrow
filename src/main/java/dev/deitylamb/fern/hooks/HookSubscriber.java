@@ -1,6 +1,6 @@
 package dev.deitylamb.fern.hooks;
 
-import dev.deitylamb.fern.flows.Flow;
+import dev.deitylamb.fern.Flow;
 
 public interface HookSubscriber<T> {
 

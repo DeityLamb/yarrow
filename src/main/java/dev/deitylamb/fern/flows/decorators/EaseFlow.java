@@ -3,9 +3,9 @@ package dev.deitylamb.fern.flows.decorators;
 import java.util.Arrays;
 import java.util.function.Function;
 
+import dev.deitylamb.fern.Flow;
 import dev.deitylamb.fern.common.Displayable;
 import dev.deitylamb.fern.common.Easings.Ease;
-import dev.deitylamb.fern.flows.Flow;
 import dev.deitylamb.fern.flows.SequenceFlow;
 
 public class EaseFlow<T> extends FlowDecorator<T> {

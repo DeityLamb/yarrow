@@ -2,6 +2,7 @@ package dev.deitylamb.fern.flows;
 
 import java.util.Arrays;
 
+import dev.deitylamb.fern.Flow;
 import dev.deitylamb.fern.common.Displayable;
 import dev.deitylamb.fern.common.FernUtils;
 

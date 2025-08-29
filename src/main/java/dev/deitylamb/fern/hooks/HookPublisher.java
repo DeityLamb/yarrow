@@ -3,7 +3,7 @@ package dev.deitylamb.fern.hooks;
 import java.util.ArrayList;
 import java.util.List;
 
-import dev.deitylamb.fern.flows.Flow;
+import dev.deitylamb.fern.Flow;
 
 public class HookPublisher<T> {
 

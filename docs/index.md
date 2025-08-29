@@ -32,8 +32,7 @@ import WithinHero from "/components/WithinHero.vue";
 
 const code = `
   // Whatever Graphics lib you have
-  private final Transitionable<Graphics> transition = Fern         
-      .<Graphics>transition(2000)
+  private final Flow<Graphics> flow = Fern.<Graphics>flow(2000)    
       .delay(100)
       .ease(Easings::easeOutCubic)
       .circular()
@@ -41,10 +40,10 @@ const code = `
       .loop();
 
   protected void paintComponent(Graphics gui) {
-    transition.tick(gui, delta); // delta - time between ticks
+    flow.tick(gui, delta); // delta - time between ticks
 
     // x will snap from 0 to 500 over 2000 milliseconds
-    int x = transition.lerp(0, 500);
+    int x = flow.lerp(0, 500);
     gui.fillRect(x, y, size, size);
   }
 `

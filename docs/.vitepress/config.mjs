@@ -25,7 +25,6 @@ export default defineConfig({
       message: 'Made with ❤️'
     },
     
-
     editLink: {
       pattern: 'https://github.com/deitylamb/fern/edit/main/docs/:path',
       text: 'Edit this page on GitHub'
@@ -54,8 +53,18 @@ export default defineConfig({
         items: [
           { text: 'Control Flow', link: '/core/controlling' },
           { text: 'Decorators and Sequences', link: '/core/decorators' },
-          { text: 'Special Flows', link: '/core/flow' },
+          { text: 'Tracks', link: '/core/tracks' },
           { text: 'Tweens', link: '/core/tweens' },
+        ]
+      },
+      {
+        text: "Examples",
+        items: []
+      },
+      {
+        text: "Miscellaneous",
+        items: [
+          { text: 'Glossary', link: '/glossary' },
         ]
       }
     ],

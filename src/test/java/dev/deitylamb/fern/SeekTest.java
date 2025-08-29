@@ -3,7 +3,6 @@ package dev.deitylamb.fern;
 import org.junit.jupiter.api.Test;
 
 import dev.deitylamb.fern.common.Color;
-import dev.deitylamb.fern.flows.Flow;
 import dev.deitylamb.fern.flows.decorators.RepeatFlow;
 
 class SeekTest {

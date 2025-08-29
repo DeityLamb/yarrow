@@ -2,8 +2,8 @@ package dev.deitylamb.fern.flows.decorators;
 
 import java.util.Arrays;
 
+import dev.deitylamb.fern.Flow;
 import dev.deitylamb.fern.common.Displayable;
-import dev.deitylamb.fern.flows.Flow;
 import dev.deitylamb.fern.flows.SequenceFlow;
 import dev.deitylamb.fern.hooks.HookPublisher;
 

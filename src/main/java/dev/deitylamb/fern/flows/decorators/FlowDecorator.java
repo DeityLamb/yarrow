@@ -1,6 +1,6 @@
 package dev.deitylamb.fern.flows.decorators;
 
-import dev.deitylamb.fern.flows.Flow;
+import dev.deitylamb.fern.Flow;
 
 public abstract class FlowDecorator<T> implements Flow<T> {
 

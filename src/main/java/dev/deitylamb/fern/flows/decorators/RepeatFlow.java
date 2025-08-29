@@ -1,7 +1,7 @@
 package dev.deitylamb.fern.flows.decorators;
 
+import dev.deitylamb.fern.Flow;
 import dev.deitylamb.fern.common.Displayable;
-import dev.deitylamb.fern.flows.Flow;
 
 public class RepeatFlow<T> extends FlowDecorator<T> {
 

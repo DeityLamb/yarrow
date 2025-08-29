@@ -13,8 +13,6 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import dev.deitylamb.fern.common.Easings;
-import dev.deitylamb.fern.flows.Flow;
-import dev.deitylamb.fern.tracks.FocusTrack;
 
 public class Focus {
 
@@ -35,7 +33,7 @@ public class Focus {
 
   public static JFrame createFrame() {
 
-    FocusTrack<?> focus = Fern.focus(flow);
+    Focus<?> focus = Fern.focus(flow);
 
     JFrame frame = new JFrame("fern");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
