@@ -1,13 +1,13 @@
 # Tracks
 
-Fern also provides a special "tracks", it's Flow wrappes for specific use cases.
+Yarrow also provides a special "tracks", it's Flow wrappes for specific use cases.
 It allows you to create a focus-based animation, where the transition is only active when it is focused on.
 
 ## Usage
 ```java
 
-FocusTrack focus = Fern.focus(
-    Fern.transition(200).ease(Easings::easeOutCubic)
+FocusTrack focus = Yarrow.focus(
+    Yarrow.transition(200).ease(Easings::easeOutCubic)
 );
 
 protected void paintComponent(Graphics gui) {
@@ -21,9 +21,9 @@ protected void paintComponent(Graphics gui) {
 Blur transition will be reversed focus transition  
 But you can also provide it separately as second parameter
 ```java
-FocusTrack focus = Fern.focus(
-    Fern.transition(200).ease(Easings::easeOutCubic),
-    Fern.transition(100).reverse() // faster transition without easing
+FocusTrack focus = Yarrow.focus(
+    Yarrow.transition(200).ease(Easings::easeOutCubic),
+    Yarrow.transition(100).reverse() // faster transition without easing
 );
 :::
 
@@ -41,8 +41,8 @@ class Square extends JPanel {
   
   private Mouse mouse = new Mouse();
 
-  private FocusFlow<?> focus = Fern.focus( // [!code highlight]
-    Fern.transition(500) // [!code highlight]
+  private FocusFlow<?> focus = Yarrow.focus( // [!code highlight]
+    Yarrow.transition(500) // [!code highlight]
         .ease(Easings::easeOutQuad)); // [!code highlight]
 
   public JPanel(double delta) {
@@ -87,7 +87,7 @@ public class FocusSample {
 
   public static void main(String[] args) {
 
-    JFrame frame = new JFrame("fern");
+    JFrame frame = new JFrame("yarrow");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.setSize(512, 512);
     frame.setVisible(true);

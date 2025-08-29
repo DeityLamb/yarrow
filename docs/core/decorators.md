@@ -19,9 +19,9 @@ Each method returns a new transition, so you can easily chain multiple together
 Let's slightly modify the example from the previous section
 
 ```java
-import dev.deitylamb.fern.common.Easings;
+import dev.deitylamb.yarrow.common.Easings;
 
-Transitionable<?> transition = Fern.transition(2000)
+Transitionable<?> transition = Yarrow.transition(2000)
   .delay(100) // [!code ++]
   .ease(Easings::easeOutCubic) // [!code ++]
   .circular() // [!code ++]

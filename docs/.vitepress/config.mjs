@@ -2,12 +2,12 @@ import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "Fern - Lightweight Java library for animations and transitions",
-  description: "Fern - framework agnostic, lightweight Java library for animations and transitions with care about DX",
+  title: "Yarrow - Lightweight Java library for animations and transitions",
+  description: "Yarrow - framework agnostic, lightweight Java library for animations and transitions with care about DX",
   cleanUrls: true,
   appearance: 'dark',
   head: [
-    ['link', { rel: 'icon', href: '/assets/fern-white.svg' }]
+    ['link', { rel: 'icon', href: '/assets/yarrow-white.svg' }]
   ],
   
   themeConfig: {
@@ -26,15 +26,15 @@ export default defineConfig({
     },
     
     editLink: {
-      pattern: 'https://github.com/deitylamb/fern/edit/main/docs/:path',
+      pattern: 'https://github.com/deitylamb/yarrow/edit/main/docs/:path',
       text: 'Edit this page on GitHub'
     },
     
-    siteTitle: "FERN",
+    siteTitle: "yarrow",
     logo: {
-      light: "/assets/fern-black.svg",
-      dark: "/assets/fern-white.svg",
-      alt: "Fern logo"
+      light: "/assets/yarrow-black.svg",
+      dark: "/assets/yarrow-white.svg",
+      alt: "Yarrow logo"
     },
     // https://vitepress.dev/reference/default-theme-config
     nav: [
@@ -70,7 +70,7 @@ export default defineConfig({
     ],
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/deitylamb/fern' }
+      { icon: 'github', link: 'https://github.com/deitylamb/yarrow' }
     ]
   }
 })

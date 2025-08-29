@@ -3,12 +3,12 @@ import { data } from './version.data.js'
 </script>
 
 <center>
-<img src="/assets/fern-white.svg" width="200px" style="border-radius: 200px; display: inline;">
+<img src="/assets/yarrow-white.svg" width="200px" style="border-radius: 200px; display: inline;">
 </center>
 
-# Fern - Getting Started
+# Yarrow - Getting Started
 
-Fern is a lightweight Java library for animations and transitions
+Yarrow is a lightweight Java library for animations and transitions
 
 It is **framework-agnostic**, meaning it works with any graphics or UI framework without requiring deep integration or framework-specific dependencies
 
@@ -16,14 +16,14 @@ It uses a **fluent API**, allowing you to create readable, chainable animation c
 
 ## Installation
 
-You can install Fern using Gradle / Maven from the [GitHub Packages](https://github.com/deitylamb/fern/packages) registry
+You can install Yarrow using Gradle / Maven from the [GitHub Packages](https://github.com/deitylamb/yarrow/packages) registry
 
 ::: code-group
 
 ```groovy-vue [build.gradle]
 repositories {
     maven {
-        url "https://maven.pkg.github.com/deitylamb/fern"
+        url "https://maven.pkg.github.com/deitylamb/yarrow"
         content {
             includeGroup "dev.deitylamb"
         }
@@ -31,7 +31,7 @@ repositories {
 }
 
 dependencies {
-    implementation "dev.deitylamb:fern:{{ data.version }}"
+    implementation "dev.deitylamb:yarrow:{{ data.version }}"
 }
 ```
 
@@ -39,14 +39,14 @@ dependencies {
 <repositories>
     <repository>
         <id>github</id>
-        <url>https://maven.pkg.github.com/deitylamb/fern</url>
+        <url>https://maven.pkg.github.com/deitylamb/yarrow</url>
     </repository>
 </repositories>
 
 <dependencies>
     <dependency>
         <groupId>dev.deitylamb</groupId>
-        <artifactId>fern</artifactId>
+        <artifactId>yarrow</artifactId>
         <version>{{ data.version }}</version>
     </dependency>
 </dependencies>
@@ -57,12 +57,12 @@ dependencies {
 ### Direct JAR
 
 
-Or download the latest JAR file from [GitHub Releases](https://github.com/deitylamb/fern/releases) and add it directly to your project. Any distribution method is fine as long as authorship is preserved.
+Or download the latest JAR file from [GitHub Releases](https://github.com/deitylamb/yarrow/releases) and add it directly to your project. Any distribution method is fine as long as authorship is preserved.
 
 ## Contributing
 
-For information on contributing to Fern, please refer to the project's GitHub repository [https://github.com/deitylamb/fern](https://github.com/deitylamb/fern)
+For information on contributing to Yarrow, please refer to the project's GitHub repository [https://github.com/deitylamb/yarrow](https://github.com/deitylamb/yarrow)
 
 ## License
 
-Fern is released under the MIT License. See the `LICENSE` file in the project root for more details
+Yarrow is released under the MIT License. See the `LICENSE` file in the project root for more details

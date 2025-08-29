@@ -17,11 +17,11 @@
 You can create a simple flow like this
 
 ```java
-import dev.deitylamb.fern.Fern;
-import dev.deitylamb.fern.Flow;
+import dev.deitylamb.yarrow.Yarrow;
+import dev.deitylamb.yarrow.Flow;
 
 // Graphics is any type of object that you want to use in hooks
-private final Flow<Graphics> flow = Fern
+private final Flow<Graphics> flow = Yarrow
   .<Graphics>flow(100)
   // this hook will be called every time the tick method is called
   .onTick((graphics, flow) -> {
@@ -59,10 +59,10 @@ public void whateverRender(Graphics gui, double delta) {
 
 Or without any Graphics
 ```java
-import dev.deitylamb.fern.Fern;
-import dev.deitylamb.fern.Flow;
+import dev.deitylamb.yarrow.Yarrow;
+import dev.deitylamb.yarrow.Flow;
 
-private final Flow<Void> flow = Fern.flow(100);
+private final Flow<Void> flow = Yarrow.flow(100);
 flow.play(); 
 
 flow.tick(10);
@@ -79,9 +79,9 @@ static final int FPS = 60;
 // Time between frames
 static final int DELTA = 1000 / FPS;
 
-static final Flow<Void> flow = Fern.flow(2000); // [!code highlight]
+static final Flow<Void> flow = Yarrow.flow(2000); // [!code highlight]
 
-JFrame frame = new JFrame("fern");
+JFrame frame = new JFrame("yarrow");
 frame.setSize(512, 128);
 
 flow.play(); // [!code highlight]
@@ -120,9 +120,9 @@ int transparency = (int) (flow.alpha() * 255d);
 ```
 
 This looks a little clunky  
-Fortunately, Fern provides a handy method to linearly interpolate between two values based on the current alpha  
+Fortunately, Yarrow provides a handy method to linearly interpolate between two values based on the current alpha  
 <br/>
-It's an alias for `FernUtils.lerp(alpha, from, to)`
+It's an alias for `YarrowUtils.lerp(alpha, from, to)`
 
 ```java
 int transparency = (int) (flow.alpha() * 255d); // [!code --]
@@ -132,10 +132,10 @@ int transparency = flow.lerp(0, 255); // [!code ++]
 ## Color interpolation
 
 There is also a shortcut method to interpolate between two colors  
-`dev.deitylamb.fern.common.Color`
+`dev.deitylamb.yarrow.common.Color`
 
 ```java
-import dev.deitylamb.fern.common.Color; // [!code ++]
+import dev.deitylamb.yarrow.common.Color; // [!code ++]
 
 Color color = flow.lerp(Color.RED, Color.BLUE);
 

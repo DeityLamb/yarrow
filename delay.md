@@ -3,7 +3,7 @@
 @Override
     public void seek(double duration) {
 
-        double modulo = FernUtils.modulo(duration, this.duration());
+        double modulo = YarrowUtils.modulo(duration, this.duration());
 
         if (modulo > delay) {
             inner.seek(modulo - delay);
@@ -20,7 +20,7 @@
 @Override
     public void seek(double duration) {
 
-        double modulo = FernUtils.modulo(duration, this.duration());
+        double modulo = YarrowUtils.modulo(duration, this.duration());
 
         this.repeats = (int) Math.floor(modulo / inner.duration());
 
@@ -39,7 +39,7 @@
         this.reset();
         this.pause();
 
-        double capacity = FernUtils.modulo(duration, this.duration());
+        double capacity = YarrowUtils.modulo(duration, this.duration());
 
         for (Transitionable<T> transition : edges) {
 
@@ -61,7 +61,7 @@
 ```java
     @Override
     public void seek(double duration) {
-        this.elapsed = FernUtils.modulo(duration, this.duration);
+        this.elapsed = YarrowUtils.modulo(duration, this.duration);
 
         if (alpha() == 1d) {
             this.pause();

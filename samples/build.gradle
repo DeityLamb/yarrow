@@ -38,7 +38,7 @@ sourceSets.main.java.srcDirs.each { dir ->
                 group = 'samples'
                 description = "Runs the ${sampleName} sample"
                 classpath = sourceSets.main.runtimeClasspath
-                mainClass = "dev.deitylamb.fern.${sampleName}"
+                mainClass = "dev.deitylamb.yarrow.${sampleName}"
                 standardInput = System.in
             }
         }

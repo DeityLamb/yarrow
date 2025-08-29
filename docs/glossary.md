@@ -1,6 +1,6 @@
 # Glossary
 
-This page defines the core terms used in Fern.  
+This page defines the core terms used in Yarrow.  
 
 ---
 
