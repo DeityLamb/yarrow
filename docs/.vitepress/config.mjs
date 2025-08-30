@@ -2,6 +2,9 @@ import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
+  vite: {
+    server: { port: 3000 }
+  },
   title: "Yarrow - Lightweight Java library for animations and transitions",
   description: "Yarrow - framework agnostic, lightweight Java library for animations and transitions with care about DX",
   cleanUrls: true,

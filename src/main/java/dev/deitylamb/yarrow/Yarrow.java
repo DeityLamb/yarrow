@@ -23,11 +23,11 @@ public class Yarrow {
 
     @SafeVarargs
     public static <T> Parallel<T> parallel(Tickable<T>... args) {
-        return new Parallel<T>(Arrays.asList(args));
+        return new Parallel<>(Arrays.asList(args));
     }
 
     public static <T> Parallel<T> parallel(List<Tickable<T>> tracks) {
-        return new Parallel<T>(tracks);
+        return new Parallel<>(tracks);
 
     }
 

@@ -16,10 +16,12 @@ public class BasicFlow<T> implements Flow<T> {
         this.duration = duration;
     }
 
+    @Override
     public double duration() {
         return duration;
     }
 
+    @Override
     public double alpha() {
         return YarrowUtils.clamp(elapsed / duration, 0d, 1d);
     }

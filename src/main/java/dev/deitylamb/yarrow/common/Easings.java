@@ -8,25 +8,74 @@ public class Easings {
     public static interface Ease extends Function<Double, Double> {
     }
 
+    public static Ease bezierLinear(double p0, double p1) {
+        return (t) -> {
+            double mt = 1 - t;
+            return mt * p0 + t * p1;
+        };
+    }
+
+    public static Ease bezierQuad(double p0, double p1, double p2) {
+        return (t) -> {
+            double mt = 1 - t;
+            return mt * mt * p0
+                    + 2 * mt * t * p1
+                    + t * t * p2;
+        };
+    }
+
+    public static Ease bezierCubic(double x1, double y1, double x2, double y2) {
+        return (Double t) -> {
+
+            double x = t;
+            for (int i = 0; i < 5; i++) {
+                double mt = 1 - x;
+                double f = (3 * mt * mt * x * x1)
+                        + (3 * mt * x * x * x2)
+                        + (x * x * x) - t;
+                double df = 3 * (1 - x) * (1 - x) * (x1)
+                        + 6 * (1 - x) * x * (x2 - x1)
+                        + 3 * x * x * (1 - x2);
+                if (Math.abs(df) < 1e-6) {
+                    break;
+                }
+                x -= f / df;
+                x = Math.max(0, Math.min(1, x));
+            }
+
+            return 3 * (1 - x) * (1 - x) * x * y1
+                    + 3 * (1 - x) * x * x * y2
+                    + x * x * x;
+        };
+    }
+
     public static Ease blend(Ease blend, Ease with) {
         return (alpha) -> with.apply(blend.apply(alpha));
     }
 
     public static Double linear(Double t) {
         return t;
-    };
+    }
+
+    ;
 
     public static Double easeInQuad(Double t) {
         return t * t;
-    };
+    }
+
+    ;
 
     public static Double easeOutQuad(Double t) {
         return 1 - (1 - t) * (1 - t);
-    };
+    }
+
+    ;
 
     public static Double easeInOutQuad(Double t) {
         return t < 0.5d ? 2 * t * t : -1 + (4 - 2 * t) * t;
-    };
+    }
+
+    ;
 
     public static Double easeInCubic(Double t) {
         return t * t * t;
@@ -40,44 +89,6 @@ public class Easings {
         return t < 0.5d
                 ? 4 * t * t * t
                 : 1 - Math.pow(-2 * t + 2, 3) / 2;
-    }
-
-    public static Ease springEase(
-            double mass, double stiffness, double damping) {
-        return springEase(mass, stiffness, damping, 0);
-    }
-
-    public static Ease springEase(
-            double mass, double stiffness, double damping, double initialVelocity) {
-
-        double m = mass;
-        double k = stiffness;
-        double c = damping;
-        double v0 = initialVelocity;
-
-        double omega0 = Math.sqrt(k / m);
-        double zeta = c / (2 * Math.sqrt(k * m));
-
-        if (zeta < 1) {
-            double omegaD = omega0 * Math.sqrt(1 - zeta * zeta);
-            return t -> {
-                double exp = Math.exp(-zeta * omega0 * t);
-                return 1 - exp * ((Math.cos(omegaD * t)) +
-                        ((zeta * omega0 + v0) / omegaD) * Math.sin(omegaD * t));
-            };
-        } else if (zeta == 1) {
-            return t -> {
-                double exp = Math.exp(-omega0 * t);
-                return 1 - exp * (1 + (omega0 + v0) * t);
-            };
-        } else {
-            double omegaD = omega0 * Math.sqrt(zeta * zeta - 1);
-            return t -> {
-                double exp1 = Math.exp((-zeta * omega0 + omegaD) * t);
-                double exp2 = Math.exp((-zeta * omega0 - omegaD) * t);
-                return 1 - (exp1 - exp2) / (2 * omegaD);
-            };
-        }
     }
 
 }
