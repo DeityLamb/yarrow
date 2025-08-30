@@ -1,7 +1,6 @@
 package dev.deitylamb.yarrow;
 
 import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -11,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import dev.deitylamb.yarrow.common.Color;
 import dev.deitylamb.yarrow.common.Easings;
 import dev.deitylamb.yarrow.common.Easings.Ease;
 
@@ -45,7 +45,7 @@ public class Snap {
 
         frame.add(new JPanel() {
             {
-                setBackground(new Color(0x15, 0x15, 0x15));
+                setBackground(new java.awt.Color(0x15, 0x15, 0x15));
             }
 
             @Override
@@ -64,11 +64,9 @@ public class Snap {
                 int x = (int) flow.lerp(PADDING, getWidth() - size - PADDING);
                 int y = getHeight() / 2 - size / 2;
 
-                dev.deitylamb.yarrow.common.Color color
-                        = flow.lerp(dev.deitylamb.yarrow.common.Color.RED.withBlue(80),
-                                dev.deitylamb.yarrow.common.Color.BLUE.withRed(80));
+                Color color = flow.lerp(Color.RED.withBlue(80), Color.BLUE.withRed(80));
 
-                gui.setColor(new Color(color.argb(), true));
+                gui.setColor(new java.awt.Color(color.argb(), true));
                 gui.fillRoundRect(x, y, size, size, 12, 12);
             }
 
@@ -81,7 +79,7 @@ public class Snap {
                         10,
                         dashPattern,
                         0));
-                g2.setColor(Color.DARK_GRAY);
+                g2.setColor(java.awt.Color.DARK_GRAY);
                 g2.drawLine(PADDING, getHeight() / 2, getWidth() - PADDING, getHeight() / 2);
             }
         });

@@ -6,6 +6,7 @@ import dev.deitylamb.yarrow.common.Color;
 import dev.deitylamb.yarrow.flows.decorators.RepeatFlow;
 
 class SeekTest {
+
     @Test
     void seekShouldWork() {
         Flow<?> flow = Yarrow.flow(10);
@@ -34,6 +35,23 @@ class SeekTest {
         assert flow.isRunning();
 
         TestUtils.iter(flow, 10).shouldBe(t -> 1d - (t / 10d));
+
+        assert flow.isPaused();
+
+    }
+
+    @Test
+    void seekShouldWorkInSeq2() {
+        Flow<?> flow = Yarrow.flow(10).then(Yarrow.flow(10)).then(Yarrow.flow(10));
+        flow.play();
+
+        assert flow.duration() == 30;
+
+        flow.seek(25);
+
+        assert flow.isRunning();
+
+        TestUtils.iter(flow, 5).shouldBe(t -> (5 + t) / 10d);
 
         assert flow.isPaused();
     }

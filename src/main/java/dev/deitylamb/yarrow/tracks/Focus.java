@@ -6,6 +6,7 @@ import dev.deitylamb.yarrow.Flow;
 import dev.deitylamb.yarrow.Tickable;
 
 public class Focus<T> implements Tickable<T> {
+
     private final Flow<T> focus;
     private final Flow<T> blur;
     private boolean isFocused = false;
@@ -47,8 +48,4 @@ public class Focus<T> implements Tickable<T> {
         blur.tick(graphics, delta);
     }
 
-    @Override
-    public Focus<T> clone() {
-        return new Focus<>(this.focus.clone(), this.blur.clone());
-    }
 }

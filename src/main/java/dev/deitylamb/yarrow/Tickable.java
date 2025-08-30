@@ -8,6 +8,4 @@ public interface Tickable<T> {
         this.tick(null, delta);
     }
 
-    Tickable<T> clone();
-
 }

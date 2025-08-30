@@ -12,50 +12,50 @@ import dev.deitylamb.yarrow.common.Easings;
 
 public class FadeInOut {
 
-  // frames per second
-  private static int FPS = 60;
-  // time between frames
-  private static int delta = 1000 / FPS;
+    // frames per second
+    private static final int FPS = 60;
+    // time between frames
+    private static final int DELTA = 1000 / FPS;
 
-  private static final Flow<?> flow = Yarrow.flow(2000)
-      .delay(100)
-      .ease(Easings::easeOutCubic)
-      .circular()
-      .loop();
+    private static final Flow<?> flow = Yarrow.flow(2000)
+            .delay(100)
+            .ease(Easings::easeOutCubic)
+            .circular()
+            .loop();
 
-  public static void main(String[] args) {
+    public static void main(String[] args) {
 
-    Frame frame = createFrame();
+        Frame frame = createFrame();
 
-    new Timer(delta, a -> frame.repaint()).start();
-  }
+        new Timer(DELTA, a -> frame.repaint()).start();
+    }
 
-  public static JFrame createFrame() {
+    public static JFrame createFrame() {
 
-    flow.play();
+        flow.play();
 
-    JFrame frame = new JFrame("yarrow");
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.setSize(512, 128);
-    frame.setVisible(true);
-    frame.setLocationRelativeTo(null);
+        JFrame frame = new JFrame("yarrow");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(512, 128);
+        frame.setVisible(true);
+        frame.setLocationRelativeTo(null);
 
-    frame.add(new JPanel() {
-      @Override
-      protected void paintComponent(Graphics gui) {
-        super.paintComponent(gui);
+        frame.add(new JPanel() {
+            @Override
+            protected void paintComponent(Graphics gui) {
+                super.paintComponent(gui);
 
-        flow.tick(delta);
+                flow.tick(DELTA);
 
-        Color color = new Color(80, 0, 255,
-            (int) (flow.alpha() * 255D));
+                Color color = new Color(80, 0, 255,
+                        (int) (flow.alpha() * 255D));
 
-        gui.setColor(color);
-        gui.fillRect(0, 0, getWidth(), getHeight());
+                gui.setColor(color);
+                gui.fillRect(0, 0, getWidth(), getHeight());
 
-      }
-    });
+            }
+        });
 
-    return frame;
-  }
+        return frame;
+    }
 }

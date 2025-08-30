@@ -8,6 +8,7 @@ import dev.deitylamb.yarrow.common.YarrowUtils;
 import dev.deitylamb.yarrow.flows.SequenceFlow;
 
 public class DelayFlow<T> extends FlowDecorator<T> {
+
     public final double delay;
     private double elapsed = 0;
 
@@ -51,6 +52,11 @@ public class DelayFlow<T> extends FlowDecorator<T> {
     }
 
     @Override
+    public double elapsed() {
+        return elapsed + inner.elapsed();
+    }
+
+    @Override
     public DelayFlow<T> speed(double speed) {
         return new DelayFlow<>(inner.speed(speed), delay / speed);
     }
@@ -75,10 +81,10 @@ public class DelayFlow<T> extends FlowDecorator<T> {
 
         String tab = Displayable.indent(depth);
 
-        return "DelayFlow {\n" +
-                tab + Displayable.INDENT + "elapsed=" + elapsed + ",\n" +
-                tab + Displayable.INDENT + "delay=" + delay + ",\n" +
-                tab + Displayable.INDENT + "inner=" + inner.display(depth + 1) + "\n" +
-                tab + "}";
+        return "DelayFlow {\n"
+                + tab + Displayable.INDENT + "elapsed=" + elapsed + ",\n"
+                + tab + Displayable.INDENT + "delay=" + delay + ",\n"
+                + tab + Displayable.INDENT + "inner=" + inner.display(depth + 1) + "\n"
+                + tab + "}";
     }
 }

@@ -53,6 +53,11 @@ public class RepeatFlow<T> extends FlowDecorator<T> {
         return isInfinityLoop() ? -1 : times * inner.duration();
     }
 
+    @Override
+    public double elapsed() {
+        return isInfinityLoop() ? -1 : (inner.duration() * (repeats - 1) + inner.elapsed());
+    }
+
     private boolean isOver() {
         return repeats >= times;
     }
@@ -71,7 +76,6 @@ public class RepeatFlow<T> extends FlowDecorator<T> {
         return new RepeatFlow<>(inner.then(flow), times);
     }
 
-
     @Override
     public RepeatFlow<T> clone() {
         return new RepeatFlow<>(inner.clone(), times);
@@ -87,11 +91,11 @@ public class RepeatFlow<T> extends FlowDecorator<T> {
 
         String tab = Displayable.indent(depth);
 
-        return "RepeatFlow {\n" +
-                tab + Displayable.INDENT + "repeats=" + repeats + ",\n" +
-                tab + Displayable.INDENT + "times=" + times + ",\n" +
-                tab + Displayable.INDENT + "inner=" + inner.display(depth + 1) + "\n" +
-                tab + "}";
+        return "RepeatFlow {\n"
+                + tab + Displayable.INDENT + "repeats=" + repeats + ",\n"
+                + tab + Displayable.INDENT + "times=" + times + ",\n"
+                + tab + Displayable.INDENT + "inner=" + inner.display(depth + 1) + "\n"
+                + tab + "}";
     }
 
 }

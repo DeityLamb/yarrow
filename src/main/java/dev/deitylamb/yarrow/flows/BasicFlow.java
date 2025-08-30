@@ -22,8 +22,8 @@ public class BasicFlow<T> implements Flow<T> {
     }
 
     @Override
-    public double alpha() {
-        return YarrowUtils.clamp(elapsed / duration, 0d, 1d);
+    public double elapsed() {
+        return elapsed;
     }
 
     @Override
@@ -79,12 +79,12 @@ public class BasicFlow<T> implements Flow<T> {
 
         String tab = Displayable.indent(depth);
 
-        return "BasicFlow {\n" +
-                tab + Displayable.INDENT + "alpha=" + alpha() + ",\n" +
-                tab + Displayable.INDENT + "running=" + running + ",\n" +
-                tab + Displayable.INDENT + "elapsed=" + elapsed + ",\n" +
-                tab + Displayable.INDENT + "duration=" + duration + ",\n" +
-                tab + "}";
+        return "BasicFlow {\n"
+                + tab + Displayable.INDENT + "alpha=" + alpha() + ",\n"
+                + tab + Displayable.INDENT + "running=" + running + ",\n"
+                + tab + Displayable.INDENT + "elapsed=" + elapsed + ",\n"
+                + tab + Displayable.INDENT + "duration=" + duration + ",\n"
+                + tab + "}";
     }
 
     @Override

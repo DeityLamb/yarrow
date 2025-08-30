@@ -11,7 +11,6 @@ public abstract class FlowDecorator<T> implements Flow<T> {
     }
 
     // Each decorator should decide how to clone and in which order to apply itself.
-
     @Override
     public abstract FlowDecorator<T> clone();
 
@@ -29,6 +28,11 @@ public abstract class FlowDecorator<T> implements Flow<T> {
     @Override
     public double duration() {
         return inner.duration();
+    }
+
+    @Override
+    public double elapsed() {
+        return inner.elapsed();
     }
 
     @Override

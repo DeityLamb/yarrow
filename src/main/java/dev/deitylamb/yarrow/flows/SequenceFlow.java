@@ -11,7 +11,8 @@ import dev.deitylamb.yarrow.common.Displayable;
 import dev.deitylamb.yarrow.common.Easings.Ease;
 
 public class SequenceFlow<T> implements Flow<T> {
-    private List<Flow<T>> edges;
+
+    private final List<Flow<T>> edges;
     private Optional<Flow<T>> active;
 
     public SequenceFlow(List<Flow<T>> edges) {
@@ -25,6 +26,20 @@ public class SequenceFlow<T> implements Flow<T> {
     }
 
     @Override
+    public double elapsed() {
+        return active.map(v -> {
+            int idx = this.edges.indexOf(v);
+
+            return v.elapsed() + this.edges
+                    .stream()
+                    .limit(idx)
+                    .mapToDouble(Flow::duration)
+                    .sum();
+
+        }).orElse(0d);
+    }
+
+    @Override
     public double alpha() {
         return active.map(v -> v.alpha()).orElse(0d);
     }
@@ -33,13 +48,27 @@ public class SequenceFlow<T> implements Flow<T> {
     public void tick(T graphics, double delta) {
         boolean run = isRunning();
 
-        this.active.ifPresent(v -> v.tick(graphics, delta));
+        this.active.ifPresent(current -> {
 
-        if (run && !isRunning()) {
-            this.active.ifPresent(v -> v.reset());
-            this.active = next();
-            this.active.ifPresent(v -> v.play());
-        }
+            if (current.elapsed() + delta > current.duration()) {
+                current.reset();
+                current.pause();
+                this.active = next();
+                this.active.ifPresent(v -> v.play());
+                this.tick(graphics, delta - current.remaining());
+                return;
+            }
+
+            current.tick(graphics, delta);
+
+            if (run && !isRunning()) {
+                current.reset();
+                current.pause();
+                this.active = next();
+                this.active.ifPresent(v -> v.play());
+            }
+        });
+
     }
 
     @Override
@@ -72,12 +101,12 @@ public class SequenceFlow<T> implements Flow<T> {
 
     @Override
     public SequenceFlow<T> then(Flow<T> flow) {
-        List<Flow<T>> edges = new ArrayList<>(
+        List<Flow<T>> list = new ArrayList<>(
                 this.edges.stream().map(Flow::clone).collect(Collectors.toList()));
 
-        edges.add(flow.clone());
+        list.add(flow.clone());
 
-        return new SequenceFlow<>(edges);
+        return new SequenceFlow<>(list);
     }
 
     @Override
@@ -127,16 +156,16 @@ public class SequenceFlow<T> implements Flow<T> {
 
         String indents = Displayable.indent(depth);
 
-        return "SequenceFlow {\n" +
-                indents + Displayable.INDENT + "edges=[\n" +
-
-                indents + Displayable.indent(2) + edges
-                        .stream()
-                        .map(v -> v.display(depth + 2))
-                        .collect(Collectors.joining(",\n" + indents + Displayable.indent(2)))
-                + "\n" +
-                indents + Displayable.INDENT + "]\n" +
-                indents + "}";
+        return "SequenceFlow {\n"
+                + indents + Displayable.INDENT + "edges=[\n"
+                + indents + Displayable.indent(2) + edges
+                .stream()
+                .map(v -> v.display(depth + 2))
+                .collect(Collectors.joining(",\n" + indents + Displayable.indent(2)))
+                + "\n"
+                + indents + Displayable.INDENT + "],\n"
+                + indents + Displayable.INDENT + "active=" + active.map(v -> v.display(depth + 2)).orElse("null") + ",\n"
+                + indents + "}";
     }
 
     @Override

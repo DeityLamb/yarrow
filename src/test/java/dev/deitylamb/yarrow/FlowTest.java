@@ -3,6 +3,7 @@ package dev.deitylamb.yarrow;
 import org.junit.jupiter.api.Test;
 
 class FlowTest {
+
     @Test
     void flowShouldStopAfterEnd() {
         Flow<?> flow = Yarrow.flow(10);
