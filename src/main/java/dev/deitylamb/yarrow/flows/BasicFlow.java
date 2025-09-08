@@ -14,6 +14,7 @@ public class BasicFlow<T> implements Flow<T> {
 
     public BasicFlow(double duration) {
         this.duration = duration;
+
     }
 
     @Override
@@ -35,13 +36,9 @@ public class BasicFlow<T> implements Flow<T> {
 
         this.elapsed = YarrowUtils.clamp(elapsed + delta, 0, duration);
 
-        if (isCompleted()) {
+        if (isFinished()) {
             this.pause();
         }
-    }
-
-    public boolean isCompleted() {
-        return alpha() == 1d;
     }
 
     @Override

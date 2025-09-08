@@ -81,7 +81,11 @@ class FlowTest {
         Flow<?> flow = Yarrow.flow(10).repeat(5);
         flow.play();
 
-        TestUtils.iter(flow, 50).shouldBe(t -> (t / 10d) % 1d);
+        for (int i = 0; i < 5; i++) {
+            System.out.println(flow);
+            TestUtils.iter(flow, 10).shouldBe(t -> t / 10d);
+            System.out.println(flow);
+        }
 
         assert flow.isPaused();
     }

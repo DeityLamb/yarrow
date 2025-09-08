@@ -44,8 +44,7 @@ public class Focus<T> implements Tickable<T> {
 
     @Override
     public void tick(T graphics, double delta) {
-        focus.tick(graphics, delta);
-        blur.tick(graphics, delta);
+        this.active().ifPresent(v -> v.tick(graphics, delta));
     }
 
 }

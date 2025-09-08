@@ -108,7 +108,7 @@ class SeekTest {
 
         assert flow.repeats() == 3;
 
-        assert flow.alpha() == 0.2;
+        assert flow.alpha() == 0.2d;
 
     }
 

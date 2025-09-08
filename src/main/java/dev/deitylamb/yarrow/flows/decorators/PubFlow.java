@@ -4,16 +4,23 @@ import java.util.Arrays;
 
 import dev.deitylamb.yarrow.Flow;
 import dev.deitylamb.yarrow.common.Displayable;
+import dev.deitylamb.yarrow.common.Easings;
 import dev.deitylamb.yarrow.flows.SequenceFlow;
 import dev.deitylamb.yarrow.flows.hooks.FlowPublisher;
 import dev.deitylamb.yarrow.flows.hooks.FlowSubscriber;
 
 public class PubFlow<T> extends FlowDecorator<T> {
 
-    private final FlowPublisher<T> publisher = new FlowPublisher<>();
+    private final FlowPublisher<T> publisher;
 
     public PubFlow(Flow<T> inner) {
         super(inner);
+        this.publisher = new FlowPublisher<>();
+    }
+
+    public PubFlow(Flow<T> inner, FlowPublisher<T> publisher) {
+        super(inner);
+        this.publisher = publisher;
     }
 
     @Override
@@ -65,7 +72,7 @@ public class PubFlow<T> extends FlowDecorator<T> {
 
     @Override
     public FlowDecorator<T> clone() {
-        return new PubFlow<>(inner.clone());
+        return new PubFlow<>(inner.clone(), this.publisher);
     }
 
     @Override
@@ -81,7 +88,12 @@ public class PubFlow<T> extends FlowDecorator<T> {
 
     @Override
     public PubFlow<T> speed(double speed) {
-        return new PubFlow<>(inner.speed(speed));
+        return new PubFlow<>(inner.speed(speed), this.publisher);
+    }
+
+    @Override
+    public PubFlow<T> ease(Easings.Ease ease) {
+        return new PubFlow<>(inner.ease(ease), this.publisher);
     }
 
     @Override

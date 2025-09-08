@@ -6,7 +6,7 @@ import dev.deitylamb.yarrow.common.Displayable;
 public class RepeatFlow<T> extends FlowDecorator<T> {
 
     private final int times;
-    private int repeats = 1;
+    private int repeats = 0;
 
     public RepeatFlow(Flow<T> inner, int times) {
         super(inner);
@@ -20,46 +20,60 @@ public class RepeatFlow<T> extends FlowDecorator<T> {
     @Override
     public void tick(T graphics, double delta) {
 
-        boolean run = isRunning();
-
         if (delta > inner.duration()) {
 
-            repeats = Math.min(repeats + (int) Math.floor(delta / inner.duration()), times);
+            this.repeats = Math.min(repeats + (int) Math.floor(delta / inner.duration()), times);
             delta = delta % inner.duration();
         }
 
-        super.tick(graphics, delta);
-
-        if (run && !isRunning()) {
-
-            if (!isInfinityLoop() && isOver()) {
-                return;
-            }
+        if (inner.isFinished() && !isOver()) {
 
             this.repeats++;
 
             inner.restart();
         }
+
+        super.tick(graphics, delta);
+
     }
 
     @Override
     public void reset() {
         super.reset();
-        repeats = 0;
+        this.repeats = 0;
+    }
+
+    @Override
+    public double alpha() {
+        if (isInfinityLoop()) {
+            return -1;
+        }
+
+        return inner.alpha();
     }
 
     @Override
     public double duration() {
-        return isInfinityLoop() ? -1 : times * inner.duration();
+
+        if (isInfinityLoop()) {
+            return -1;
+        }
+
+        return times * inner.duration();
     }
 
     @Override
     public double elapsed() {
-        return isInfinityLoop() ? -1 : (inner.duration() * (repeats - 1) + inner.elapsed());
+
+        if (isInfinityLoop()) {
+            return -1;
+        }
+
+        return inner.duration() * repeats + inner.elapsed();
     }
 
     private boolean isOver() {
-        return repeats >= times;
+        return !isInfinityLoop() && repeats >= times;
     }
 
     private boolean isInfinityLoop() {

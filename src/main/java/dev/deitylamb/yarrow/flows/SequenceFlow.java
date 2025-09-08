@@ -46,26 +46,19 @@ public class SequenceFlow<T> implements Flow<T> {
 
     @Override
     public void tick(T graphics, double delta) {
-        boolean run = isRunning();
 
         this.active.ifPresent(current -> {
 
             if (current.elapsed() + delta > current.duration()) {
-                current.reset();
-                current.pause();
-                this.active = next();
-                this.active.ifPresent(v -> v.play());
+                this.next();
                 this.tick(graphics, delta - current.remaining());
                 return;
             }
 
             current.tick(graphics, delta);
 
-            if (run && !isRunning()) {
-                current.reset();
-                current.pause();
-                this.active = next();
-                this.active.ifPresent(v -> v.play());
+            if (current.isFinished()) {
+                this.next();
             }
         });
 
@@ -82,6 +75,11 @@ public class SequenceFlow<T> implements Flow<T> {
     }
 
     @Override
+    public void pause() {
+        this.active.ifPresent(v -> v.pause());
+    }
+
+    @Override
     public void reset() {
         boolean run = isRunning();
 
@@ -90,13 +88,8 @@ public class SequenceFlow<T> implements Flow<T> {
         this.active = first();
 
         if (run) {
-            this.active.ifPresent(v -> v.play());
+            this.play();
         }
-    }
-
-    @Override
-    public void pause() {
-        this.active.ifPresent(v -> v.pause());
     }
 
     @Override
@@ -129,7 +122,16 @@ public class SequenceFlow<T> implements Flow<T> {
                 this.edges.stream().map(mapper).collect(Collectors.toList())));
     }
 
-    private Optional<Flow<T>> next() {
+    private void next() {
+        this.active.ifPresent(current -> {
+            current.reset();
+            current.pause();
+            this.active = findNext();
+            this.active.ifPresent(v -> v.play());
+        });
+    }
+
+    private Optional<Flow<T>> findNext() {
         if (!active.isPresent()) {
             return Optional.empty();
         }

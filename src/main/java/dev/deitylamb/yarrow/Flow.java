@@ -28,26 +28,31 @@ public interface Flow<T> extends Tickable<T>, SubscriberFacade<T>, AlphaFacade, 
 
     double elapsed();
 
-    default double remaining() {
-        return duration() - elapsed();
-    }
-
     boolean isRunning();
-
-    default boolean isPaused() {
-        return !isRunning();
-    }
-
-    default void seek(double duration) {
-        this.reset();
-        this.tick(duration);
-    }
 
     void play();
 
     void reset();
 
     void pause();
+
+    default double remaining() {
+        return duration() - elapsed();
+    }
+
+    default boolean isFinished() {
+        return this.elapsed() >= this.duration();
+    }
+
+    default boolean isPaused() {
+        return !isRunning();
+    }
+
+    default void seek(double duration) {
+
+        this.restart();
+        this.tick(duration);
+    }
 
     default void restart() {
         this.reset();
